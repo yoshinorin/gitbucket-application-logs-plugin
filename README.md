@@ -1,8 +1,10 @@
 # gitbucket-logs-plugin
 
+[![](https://travis-ci.org/YoshinoriN/gitbucket-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-monitoring-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7b56c5e541a34493a9ab05c42fb3035a)](https://www.codacy.com/app/YoshinoriN/gitbucket-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-logs-plugin&amp;utm_campaign=Badge_Grade)
+
 # Features
 
-This plugin provides GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
+This plugin provides LogBack's settings and GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
 
 * LogBack settings
 * GitBucket's log
