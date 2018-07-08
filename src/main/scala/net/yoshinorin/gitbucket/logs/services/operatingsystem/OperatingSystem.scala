@@ -18,15 +18,6 @@ object OperatingSystem {
     else if (osName.toLowerCase.contains("windows")) Windows
     else Other
 
-  val osVersion: String = osType match {
-    case Windows => {
-      Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!.toString
-    }
-    case _ => {
-      System.getProperty("os.version")
-    }
-  }
-
   val distribution: String = osType match {
     case Linux => {
       try {
