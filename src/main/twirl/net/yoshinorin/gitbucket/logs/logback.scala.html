@@ -1,6 +1,7 @@
-@(logbackSettingsFile: Either[String, String],
+@(logbackSettingsFile: Option[String],
   logbackSettings: net.yoshinorin.gitbucket.logs.models.LogBackInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
+@import net.yoshinorin.gitbucket.logs.utils.Error
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("logs") {
     @net.yoshinorin.gitbucket.logs.html.navigation(context)
@@ -16,17 +17,17 @@
             <label class="col-md-2">Log file's path</label>
             <span class="col-md-10">
             @logbackSettings.logFilePath match {
-              case Left(message) => { <div class="error"> @message </div> }
-              case Right(p) => { @p }
+              case Some(v) => { @v }
+              case None => { net.yoshinorin.gitbucket.logs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
             }
             </span>
           </div>
         </div>
       </div>
       @logbackSettingsFile match {
-        case Left(message) => { <div class="error"> @message </div> }
-        case Right(s) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackSettings.confPath</span></span></div>
-                           <div class="box-content-bottom"><pre class="prettyprint linenums blob">@s</pre></div>
+        case Some(v) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackSettings.confPath</span></span></div>
+                           <div class="box-content-bottom"><pre class="prettyprint linenums blob">@v</pre></div>
+        case None => { net.yoshinorin.gitbucket.logs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
         }
       }
     } else {

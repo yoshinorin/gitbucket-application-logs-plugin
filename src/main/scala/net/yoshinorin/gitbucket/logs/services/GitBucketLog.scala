@@ -20,8 +20,8 @@ trait GitBucketLog {
   def getLog(lines: Int = GitBucketLog.getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     if (GitBucketLog.getDefaultSettings.logBackInfo.enableLogging) {
       GitBucketLog.getDefaultSettings.logBackInfo.logFilePath match {
-        case Left(message) => Left("NOT FOUND")
-        case Right(p) => {
+        case None => Left("NOT FOUND")
+        case Some(p) => {
           try {
             Right(
               Log(

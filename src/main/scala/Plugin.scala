@@ -1,8 +1,7 @@
 import gitbucket.core.controller.Context
 import gitbucket.core.plugin._
-import net.yoshinorin.gitbucket.logs.controllers.LogsController
-
 import io.github.gitbucket.solidbase.model.Version
+import net.yoshinorin.gitbucket.logs.controllers.LogsController
 
 class Plugin extends gitbucket.core.plugin.Plugin {
   override val pluginId: String = "logs"
