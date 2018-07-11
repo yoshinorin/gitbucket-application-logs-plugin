@@ -7,8 +7,6 @@ import net.yoshinorin.gitbucket.logs.services._
 
 class LogsController extends ControllerBase with AdminAuthenticator {
 
-  val os = net.yoshinorin.gitbucket.logs.services.operatingsystem.OperatingSystem.getInstance
-
   get("/admin/logs")(adminOnly {
     redirect(s"/admin/logs/logback")
   })
@@ -27,12 +25,12 @@ class LogsController extends ControllerBase with AdminAuthenticator {
     if (Try(lineNum.toInt).toOption != None) {
       val n = lineNum.toInt
       if (n > defaultSettings.displayLimitLines) {
-        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.displayLimitLines))
+        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, GitBucketLog.getLog(defaultSettings.displayLimitLines))
       } else {
-        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, os.getLog(n))
+        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, GitBucketLog.getLog(n))
       }
     } else {
-      net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.defaultDisplayLines))
+      net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, GitBucketLog.getLog(defaultSettings.defaultDisplayLines))
     }
   })
 }

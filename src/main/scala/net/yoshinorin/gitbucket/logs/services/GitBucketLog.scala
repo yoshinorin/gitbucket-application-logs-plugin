@@ -7,6 +7,7 @@ import org.apache.commons.io.input.ReversedLinesFileReader
 import net.yoshinorin.gitbucket.logs.models.{DefaultSettings, Log}
 
 object GitBucketLog {
+
   val disableMessage = "Log setting is disable."
 
   def getDefaultSettings: DefaultSettings = {
@@ -16,9 +17,7 @@ object GitBucketLog {
       30000
     )
   }
-}
 
-trait GitBucketLog {
   def getLog(num: Int = GitBucketLog.getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     if (GitBucketLog.getDefaultSettings.logBackInfo.enableLogging) {
       GitBucketLog.getDefaultSettings.logBackInfo.logFilePath match {
@@ -55,4 +54,5 @@ trait GitBucketLog {
       Left(GitBucketLog.disableMessage)
     }
   }
+
 }
