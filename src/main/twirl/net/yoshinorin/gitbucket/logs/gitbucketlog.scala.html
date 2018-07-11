@@ -27,13 +27,12 @@
               </div>
           }
         }
-      <div class="box-content-bottom">
-        <pre class="prettyprint linenums blob">
-          <div class="error">
-            @v.log
-          </div>
-        </pre>
-      </div>
+        <div class="box-content-bottom">
+          <pre class="prettyprint linenums blob">
+            @for(x <- v.log) {@x
+            }
+          </pre>
+        </div>
       }
     }
   }
