@@ -3,7 +3,6 @@ package net.yoshinorin.gitbucket.logs.services
 import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
 import scala.xml.XML
-import scala.util.{Failure, Success, Try}
 import gitbucket.core.util.StringUtil
 import net.yoshinorin.gitbucket.logs.models.LogBackInfo
 import net.yoshinorin.gitbucket.logs.utils.Error

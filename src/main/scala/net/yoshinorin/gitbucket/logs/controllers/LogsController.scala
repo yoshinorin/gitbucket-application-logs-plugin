@@ -1,11 +1,12 @@
 package net.yoshinorin.gitbucket.logs.controllers
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.logs.services._
+import net.yoshinorin.gitbucket.logs.utils.Error
 
-class LogsController extends ControllerBase with AdminAuthenticator {
+class LogsController extends ControllerBase with AdminAuthenticator with LogService {
 
   get("/admin/logs")(adminOnly {
     redirect(s"/admin/logs/logback")
@@ -19,18 +20,29 @@ class LogsController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/logs/gitbucketlog")(adminOnly {
-    val defaultSettings = GitBucketLog.getDefaultSettings
+    val logBackSettings = LogBack.getLogBackSettings
     val lineNum = request.getParameter("lines")
 
     if (Try(lineNum.toInt).toOption != None) {
-      val n = lineNum.toInt
-      if (n > defaultSettings.displayLimitLines) {
-        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, GitBucketLog.getLog(defaultSettings.displayLimitLines))
-      } else {
-        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, GitBucketLog.getLog(n))
+      val logs = readLog(logBackSettings.confPath, lineNum.toInt) match {
+        case Success(s) =>
+          s match {
+            case Some(s) => Right(s)
+            case None => Left(Error.FILE_NOT_FOUND)
+          }
+        case Failure(f) => Left(Error.FAILURE)
       }
+      net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
     } else {
-      net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultSettings, GitBucketLog.getLog(defaultSettings.defaultDisplayLines))
+      val logs = readLog(logBackSettings.confPath) match {
+        case Success(s) =>
+          s match {
+            case Some(s) => Right(s)
+            case None => Left(Error.FILE_NOT_FOUND)
+          }
+        case Failure(f) => Left(Error.FAILURE)
+      }
+      net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
     }
   })
 }
