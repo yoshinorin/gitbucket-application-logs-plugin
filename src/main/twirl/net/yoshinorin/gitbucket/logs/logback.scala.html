@@ -25,10 +25,17 @@
         </div>
       </div>
       @logbackSettingsFile match {
-        case Some(v) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackSettings.confPath</span></span></div>
-                           <div class="box-content-bottom"><pre class="prettyprint linenums blob">@v</pre></div>
-        case None => { net.yoshinorin.gitbucket.logs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
+        case Some(v) => {
+          <div class="box-header">
+            <span class="glyphicon glyphicon-file">
+              <span class="label label-default ">@logbackSettings.confPath</span>
+            </span>
+          </div>
+          <div class="box-content-bottom">
+            <pre class="prettyprint linenums blob">@v</pre>
+          </div>
         }
+        case None => { net.yoshinorin.gitbucket.logs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
       }
     } else {
       <div class="panel panel-default">
