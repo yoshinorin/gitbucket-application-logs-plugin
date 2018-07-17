@@ -26,36 +26,24 @@ class LogsController extends ControllerBase with AdminAuthenticator with LogServ
     val logBackSettings = LogBack.getLogBackSettings
     val lineNum = request.getParameter("lines")
 
-    //TODO: Fix this code
     logBackSettings.logFilePath match {
       case Some(path) => {
+        var n = defaultDisplayLines
         if (Try(lineNum.toInt).toOption != None) {
-          val logs = readLog(path, lineNum.toInt) match {
-            case Success(s) =>
-              s match {
-                case Some(s) => Right(s)
-                case None => Left(Error.FILE_NOT_FOUND)
-              }
-            case Failure(f) => {
-              logger.error(f.toString)
-              Left(Error.FAILURE)
-            }
-          }
-          net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
-        } else {
-          val logs = readLog(path) match {
-            case Success(s) =>
-              s match {
-                case Some(s) => Right(s)
-                case None => Left(Error.FILE_NOT_FOUND)
-              }
-            case Failure(f) => {
-              logger.error(f.toString)
-              Left(Error.FAILURE)
-            }
-          }
-          net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
+          n = lineNum.toInt
         }
+        val logs = readLog(path, n) match {
+          case Success(s) =>
+            s match {
+              case Some(s) => Right(s)
+              case None => Left(Error.FILE_NOT_FOUND)
+            }
+          case Failure(f) => {
+            logger.error(f.toString)
+            Left(Error.FAILURE)
+          }
+        }
+        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
       }
       case _ => {
         Left(Error.FAILURE)
