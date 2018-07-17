@@ -11,6 +11,8 @@ class LogsController extends ControllerBase with AdminAuthenticator with LogServ
 
   private val logger = LoggerFactory.getLogger(getClass)
 
+  private val LogBackSettings = LogBack.getLogBackSettings
+
   get("/admin/logs")(adminOnly {
     redirect(s"/admin/logs/logback")
   })
@@ -18,15 +20,15 @@ class LogsController extends ControllerBase with AdminAuthenticator with LogServ
   get("/admin/logs/logback")(adminOnly {
     net.yoshinorin.gitbucket.logs.html.logback(
       LogBack.logBackSettingsFile,
-      LogBack.getLogBackSettings
+      LogBackSettings
     )
   })
 
   get("/admin/logs/gitbucketlog")(adminOnly {
-    val logBackSettings = LogBack.getLogBackSettings
+    
     val lineNum = request.getParameter("lines")
 
-    logBackSettings.logFilePath match {
+    LogBackSettings.logFilePath match {
       case Some(path) => {
         var n = defaultDisplayLines
         if (Try(lineNum.toInt).toOption != None) {
