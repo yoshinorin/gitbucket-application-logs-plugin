@@ -2,12 +2,10 @@ package net.yoshinorin.gitbucket.logs.services
 
 import java.io.File
 import java.nio.charset.Charset
-
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Try
 import org.apache.commons.io.input.ReversedLinesFileReader
 import net.yoshinorin.gitbucket.logs.models.Log
-
-import scala.util.Try
 
 trait LogService {
 
@@ -23,10 +21,10 @@ trait LogService {
 
     val r = new ReversedLinesFileReader(new File(path), Charset.defaultCharset())
     try {
-      var line = ""
-      var lines = ArrayBuffer[String]()
       var counter: Int = 0
-      while ((line = r.readLine()) != null && counter < n) {
+      var line: String = ""
+      var lines = ArrayBuffer[String]()
+      while ({ line = r.readLine(); line != null } && counter <= n) {
         lines += line
         counter += 1
       }
