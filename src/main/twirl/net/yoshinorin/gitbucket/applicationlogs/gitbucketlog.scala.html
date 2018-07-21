@@ -1,15 +1,15 @@
 @(defaultDisplayLines: Int,
   displayLimitLines: Int,
-  log: Either[net.yoshinorin.gitbucket.logs.utils.Error, net.yoshinorin.gitbucket.logs.models.Log])(implicit context: gitbucket.core.controller.Context)
+  log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, net.yoshinorin.gitbucket.applicationlogs.models.Log])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import net.yoshinorin.gitbucket.logs.utils.Error
 @gitbucket.core.html.main("Application Logs") {
-  @gitbucket.core.admin.html.menu("logs") {
-    @net.yoshinorin.gitbucket.logs.html.navigation(context)
+  @gitbucket.core.admin.html.menu("applicationlogs") {
+    @net.yoshinorin.gitbucket.applicationlogs.html.navigation(context)
     @log match {
       case Left(e) => { @e.message }
       case Right(v) => {
-        <form id="get-log-from-tail" action="@context.path/admin/logs/gitbucketlog" method="get" class="form-inline">
+        <form id="get-log-from-tail" action="@context.path/admin/application-logs/gitbucketlog" method="get" class="form-inline">
           <div class="form-group">
             <button type="submit button" class="btn btn-default">
               <i class="glyphicon glyphicon-refresh"></i>

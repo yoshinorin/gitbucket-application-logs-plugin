@@ -1,6 +1,6 @@
-# gitbucket-logs-plugin
+# gitbucket-application-logs-plugin
 
-[![](https://travis-ci.org/YoshinoriN/gitbucket-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-monitoring-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7b56c5e541a34493a9ab05c42fb3035a)](https://www.codacy.com/app/YoshinoriN/gitbucket-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-logs-plugin&amp;utm_campaign=Badge_Grade)
+[![](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-monitoring-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7b56c5e541a34493a9ab05c42fb3035a)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade)
 
 # Features
 
@@ -15,7 +15,7 @@ TODO
 
 # Download & Installation
 
-1. Download plugin jar file from [the release page](//github.com/YoshinoriN/gitbucket-logs-plugin/releases).
+1. Download plugin jar file from [the release page](//github.com/YoshinoriN/gitbucket-application-logs-plugin/releases).
 2. Put plugin jar file into `GITBUCKET_HOME/plugins` and restart GitBucket.
 
 # UI Usage
@@ -34,7 +34,7 @@ Goto the `System Administration` menu, you can see `Application Logs` section.
 sbt package
 ```
 
-The built package will be created at `/target/scala-2.12/gitbucket-logs-plugin_2.12-{plugin-version}.jar`
+The built package will be created at `/target/scala-2.12/gitbucket-application-logs-plugin_2.12-{plugin-version}.jar`
 
 # License
 

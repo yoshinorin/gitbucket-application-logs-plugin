@@ -1,4 +1,4 @@
-package net.yoshinorin.gitbucket.logs.utils
+package net.yoshinorin.gitbucket.applicationlogs.utils
 
 sealed abstract class Error(val message: String)
 

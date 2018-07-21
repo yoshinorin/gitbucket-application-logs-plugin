@@ -1,29 +1,29 @@
-package net.yoshinorin.gitbucket.logs.controllers
+package net.yoshinorin.gitbucket.applicationlogs.controllers
 
 import scala.util.{Failure, Success, Try}
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
-import net.yoshinorin.gitbucket.logs.services._
-import net.yoshinorin.gitbucket.logs.utils.Error
+import net.yoshinorin.gitbucket.applicationlogs.services._
+import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
-class LogsController extends ControllerBase with AdminAuthenticator with LogService {
+class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService {
 
   private val logger = LoggerFactory.getLogger(getClass)
   private val logBackSettings = LogBack.getLogBackSettings
 
-  get("/admin/logs")(adminOnly {
-    redirect(s"/admin/logs/logback")
+  get("/admin/application-logs")(adminOnly {
+    redirect(s"/admin/application-logs/logback")
   })
 
-  get("/admin/logs/logback")(adminOnly {
-    net.yoshinorin.gitbucket.logs.html.logback(
+  get("/admin/application-logs/logback")(adminOnly {
+    net.yoshinorin.gitbucket.applicationlogs.html.logback(
       LogBack.logBackSettingsFile,
       logBackSettings
     )
   })
 
-  get("/admin/logs/gitbucketlog")(adminOnly {
+  get("/admin/application-logs/gitbucketlog")(adminOnly {
 
     val lineNum = request.getParameter("lines")
 
@@ -44,7 +44,7 @@ class LogsController extends ControllerBase with AdminAuthenticator with LogServ
             Left(Error.FAILURE)
           }
         }
-        net.yoshinorin.gitbucket.logs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
+        net.yoshinorin.gitbucket.applicationlogs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs)
       }
       case _ => {
         Left(Error.FAILURE)
