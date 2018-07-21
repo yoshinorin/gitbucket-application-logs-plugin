@@ -5,14 +5,13 @@ import java.nio.charset.Charset
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 import org.apache.commons.io.input.ReversedLinesFileReader
-import net.yoshinorin.gitbucket.applicationlogs.models.Log
 
 trait ApplicationLogService {
 
   val defaultDisplayLines: Int = 1000
   val displayLimitLines: Int = 10000
 
-  def readLog(path: String, n: Int = defaultDisplayLines): Try[Option[Log]] = Try {
+  def readLog(path: String, n: Int = defaultDisplayLines): Try[Option[ArrayBuffer[String]]] = Try {
 
     val logFile = new File(path)
     if (!logFile.exists()) {
@@ -28,7 +27,7 @@ trait ApplicationLogService {
         lines += line
         counter += 1
       }
-      Some(Log(lines.reverse, n))
+      Some(lines.reverse)
     } finally {
       if (r != null) r.close()
     }

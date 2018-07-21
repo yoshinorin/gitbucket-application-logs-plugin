@@ -1,8 +1,13 @@
+@import scala.collection.mutable.ArrayBuffer
+
 @(defaultDisplayLines: Int,
   displayLimitLines: Int,
-  log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, net.yoshinorin.gitbucket.applicationlogs.models.Log])(implicit context: gitbucket.core.controller.Context)
+  log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, ArrayBuffer[String]],
+  lineNums: Int)(implicit context: gitbucket.core.controller.Context)
+
 @import context._
 @import net.yoshinorin.gitbucket.applicationlogs.utils.Error
+
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
     @net.yoshinorin.gitbucket.applicationlogs.html.navigation(context)
@@ -14,14 +19,14 @@
             <button type="submit button" class="btn btn-default">
               <i class="glyphicon glyphicon-refresh"></i>
             </button>
-            <input type="text" value="@v.displayedLines" name="lines" class="form-control" placeholder="@v.displayedLines"/>
+            <input type="text" value="@lineNums" name="lines" class="form-control" placeholder="@lineNums"/>
             lines were display from the tail of log. You can specify the number of displayed lines value less than @displayLimitLines. Default is @defaultDisplayLines.
           </div>
         </form>
         <br>
         <div class="box-content-bottom">
           <pre class="prettyprint linenums blob">
-            @for(x <- v.log) {@x
+            @for(x <- v) { @x
             }
           </pre>
         </div>
