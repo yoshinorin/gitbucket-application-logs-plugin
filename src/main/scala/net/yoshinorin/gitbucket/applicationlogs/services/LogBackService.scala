@@ -7,7 +7,7 @@ import gitbucket.core.util.StringUtil
 import net.yoshinorin.gitbucket.applicationlogs.models.LogBackInfo
 import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
-object LogBack {
+trait LogBackService {
 
   val enableLogging = System.getProperties().asScala.toMap.contains("logback.configurationFile")
   val confPath = System.getProperties().asScala.toMap.getOrElse("logback.configurationFile", Error.NOT_FOUND_LOGBACK_SETTINGS.message)
