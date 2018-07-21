@@ -2,7 +2,7 @@
   displayLimitLines: Int,
   log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, net.yoshinorin.gitbucket.applicationlogs.models.Log])(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import net.yoshinorin.gitbucket.logs.utils.Error
+@import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
     @net.yoshinorin.gitbucket.applicationlogs.html.navigation(context)
