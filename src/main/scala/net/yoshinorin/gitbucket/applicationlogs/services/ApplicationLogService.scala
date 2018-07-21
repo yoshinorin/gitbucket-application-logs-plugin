@@ -1,13 +1,13 @@
-package net.yoshinorin.gitbucket.logs.services
+package net.yoshinorin.gitbucket.applicationlogs.services
 
 import java.io.File
 import java.nio.charset.Charset
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 import org.apache.commons.io.input.ReversedLinesFileReader
-import net.yoshinorin.gitbucket.logs.models.Log
+import net.yoshinorin.gitbucket.applicationlogs.models.Log
 
-trait LogService {
+trait ApplicationLogService {
 
   val defaultDisplayLines: Int = 1000
   val displayLimitLines: Int = 10000

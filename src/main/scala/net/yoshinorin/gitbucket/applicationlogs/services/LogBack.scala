@@ -1,11 +1,11 @@
-package net.yoshinorin.gitbucket.logs.services
+package net.yoshinorin.gitbucket.applicationlogs.services
 
 import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
 import scala.xml.XML
 import gitbucket.core.util.StringUtil
-import net.yoshinorin.gitbucket.logs.models.LogBackInfo
-import net.yoshinorin.gitbucket.logs.utils.Error
+import net.yoshinorin.gitbucket.applicationlogs.models.LogBackInfo
+import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
 object LogBack {
 

@@ -1,4 +1,4 @@
-val Name = "gitbucket-logs-plugin"
+val Name = "gitbucket-application-logs-plugin"
 val Organization = "net.yoshinorin"
 val Version = "0.1.0"
 

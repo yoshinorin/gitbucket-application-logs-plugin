@@ -1,4 +1,4 @@
-package net.yoshinorin.gitbucket.logs.models
+package net.yoshinorin.gitbucket.applicationlogs.models
 
 case class LogBackInfo(
   enableLogging: Boolean,
