@@ -7,10 +7,10 @@ import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.applicationlogs.services._
 import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
-class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService {
+class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService with LogBackService {
 
   private val logger = LoggerFactory.getLogger(getClass)
-  private val logBackSettings = LogBack.getLogBackSettings
+  private val logBackSettings = getLogBackSettings
 
   get("/admin/application-logs")(adminOnly {
     redirect(s"/admin/application-logs/logback")
@@ -18,7 +18,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
   get("/admin/application-logs/logback")(adminOnly {
     net.yoshinorin.gitbucket.applicationlogs.html.logback(
-      LogBack.logBackSettingsFile,
+      logBackSettingsFile,
       logBackSettings
     )
   })
