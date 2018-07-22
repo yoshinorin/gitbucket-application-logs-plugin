@@ -20,6 +20,13 @@ trait LogBackService {
 
   private val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
 
+  def isEnable: Boolean = {
+    getLogBackConfigurationFilePath match {
+      case Some(v) => true
+      case _ => false
+    }
+  }
+
   def getLogBackConfigurationFilePath: Option[String] = {
     val rootLoggerCtx = ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext
     val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList()
