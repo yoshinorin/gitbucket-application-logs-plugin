@@ -1,17 +1,20 @@
-@(logbackSettingsFile: Option[String],
+@(isEnable: Boolean,
+  logBackConfigurationFilePath: Option[String],
+  logBackConfigurationFileContent: Option[String],
   logbackSettings: net.yoshinorin.gitbucket.applicationlogs.models.LogBackInfo)(implicit context: gitbucket.core.controller.Context)
+
 @import context._
 @import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
     @net.yoshinorin.gitbucket.applicationlogs.html.navigation(context)
-    @if(logbackSettings.enableLogging) {
+    @if(isEnable) {
       <div class="panel panel-default">
         <div class="panel-body">
           <h6><span class="label label-primary">Enable</span></h6><hr>
           <div class="row">
             <label class="col-md-2">Config file's path</label>
-            <span class="col-md-10">@logbackSettings.confPath</span>
+            <span class="col-md-10">@logBackConfigurationFilePath</span>
           </div>
           <div class="row">
             <label class="col-md-2">Log file's path</label>
@@ -24,11 +27,11 @@
           </div>
         </div>
       </div>
-      @logbackSettingsFile match {
+      @logBackConfigurationFileContent match {
         case Some(v) => {
           <div class="box-header">
             <span class="glyphicon glyphicon-file">
-              <span class="label label-default ">@logbackSettings.confPath</span>
+              <span class="label label-default ">@logBackConfigurationFilePath</span>
             </span>
           </div>
           <div class="box-content-bottom">

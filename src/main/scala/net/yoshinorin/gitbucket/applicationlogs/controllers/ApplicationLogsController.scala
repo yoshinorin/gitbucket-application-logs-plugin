@@ -18,7 +18,9 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
   get("/admin/application-logs/logback")(adminOnly {
     net.yoshinorin.gitbucket.applicationlogs.html.logback(
-      logBackSettingsFile,
+      isEnable,
+      getLogBackConfigurationFilePath,
+      readLogBackConfigurationFile,
       logBackSettings
     )
   })

@@ -36,6 +36,16 @@ trait LogBackService {
     }
   }
 
+  def readLogBackConfigurationFile: Option[String] = {
+    getLogBackConfigurationFilePath match {
+      case Some(s) => {
+        val bytes = Files.readAllBytes(Paths.get(s))
+        Some(StringUtil.convertFromByteArray(bytes))
+      }
+      case None => None
+    }
+  }
+
   def getLogFilePaths: Option[List[String]] = {
     import scala.collection.JavaConversions._
 
@@ -58,6 +68,7 @@ trait LogBackService {
     }
   }
 
+  //TODO: delete
   val logBackSettingsFile: Option[String] = {
     if (enableLogging) {
       val bytes = Files.readAllBytes(Paths.get(confPath))
