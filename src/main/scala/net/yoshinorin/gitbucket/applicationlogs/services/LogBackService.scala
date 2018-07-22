@@ -22,7 +22,11 @@ trait LogBackService {
 
   def getLogBackConfigurationFilePath: Option[String] = {
     val rootLoggerCtx = ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext
-    Some(ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList().get(0).toString)
+    val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList()
+    watchList.size() match {
+      case 0 => None
+      case _ => Some(watchList.get(0).toString)
+    }
   }
 
   def getLogFilePaths: Option[List[String]] = {
