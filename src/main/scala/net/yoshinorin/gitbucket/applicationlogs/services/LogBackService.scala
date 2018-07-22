@@ -6,6 +6,7 @@ import scala.xml.XML
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.FileAppender
+import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil
 import ch.qos.logback.core.rolling.RollingFileAppender
 import org.slf4j.LoggerFactory
 import gitbucket.core.util.StringUtil
@@ -18,6 +19,11 @@ trait LogBackService {
   val confPath = System.getProperties().asScala.toMap.getOrElse("logback.configurationFile", Error.NOT_FOUND_LOGBACK_SETTINGS.message)
 
   private val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
+
+  def getLogBackConfigurationFilePath: Option[String] = {
+    val rootLoggerCtx = ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext
+    Some(ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList().get(0).toString)
+  }
 
   def getLogFilePaths: Option[List[String]] = {
     import scala.collection.JavaConversions._
