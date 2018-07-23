@@ -44,10 +44,9 @@ trait LogBackService {
   }
 
   def getLogFilePaths: Option[List[String]] = {
-    import scala.collection.JavaConversions._
 
     var paths = List[String]()
-    for (logger <- ctx.getLoggerList) {
+    for (logger <- ctx.getLoggerList.asScala) {
       val i = logger.iteratorForAppenders
       while ({
         i.hasNext
@@ -58,7 +57,7 @@ trait LogBackService {
         }
       }
     }
-    if (paths.size() != 0) {
+    if (paths.size != 0) {
       Some(paths)
     } else {
       None
