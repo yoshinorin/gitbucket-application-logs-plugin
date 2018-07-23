@@ -2,7 +2,6 @@ package net.yoshinorin.gitbucket.applicationlogs.services
 
 import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
-import scala.xml.XML
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.FileAppender
@@ -10,8 +9,6 @@ import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil
 import ch.qos.logback.core.rolling.RollingFileAppender
 import org.slf4j.LoggerFactory
 import gitbucket.core.util.StringUtil
-import net.yoshinorin.gitbucket.applicationlogs.models.LogBackInfo
-import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
 trait LogBackService {
 
@@ -64,18 +61,4 @@ trait LogBackService {
     }
   }
 
-  val logFilePath: Option[String] = {
-    getLogBackConfigurationFilePath match {
-      case Some(s) => Some((XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>", "").replace("</file>", ""))
-      case None => None
-    }
-  }
-
-  def getLogBackSettings: LogBackInfo = {
-    LogBackInfo(
-      System.getProperties().asScala.toMap.contains("logback.configurationFile"),
-      System.getProperties().asScala.toMap.getOrElse("logback.configurationFile", Error.NOT_FOUND_LOGBACK_SETTINGS.message),
-      logFilePath
-    )
-  }
 }

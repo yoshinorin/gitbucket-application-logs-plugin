@@ -10,7 +10,6 @@ import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService with LogBackService {
 
   private val logger = LoggerFactory.getLogger(getClass)
-  private val logBackSettings = getLogBackSettings
 
   get("/admin/application-logs")(adminOnly {
     redirect(s"/admin/application-logs/logback")
@@ -21,7 +20,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
       isEnable,
       getLogBackConfigurationFilePath,
       readLogBackConfigurationFile,
-      logBackSettings
+      getLogFilePaths.headOption
     )
   })
 
@@ -29,13 +28,13 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val lineNum = request.getParameter("lines")
 
-    logBackSettings.logFilePath match {
+    getLogFilePaths.headOption match {
       case Some(path) => {
         var n = defaultDisplayLines
         if (Try(lineNum.toInt).toOption != None) {
           n = lineNum.toInt
         }
-        val logs = readLog(path, n) match {
+        val logs = readLog(path.head, n) match {
           case Success(s) =>
             s match {
               case Some(s) => Right(s)
