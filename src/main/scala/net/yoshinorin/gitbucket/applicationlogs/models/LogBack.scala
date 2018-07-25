@@ -7,31 +7,30 @@ import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.FileAppender
 import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil
 import ch.qos.logback.core.rolling.RollingFileAppender
-import org.slf4j.LoggerFactory
 import gitbucket.core.util.StringUtil
 
-object LogBack {
+class LogBack {
 
-  private val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
-
-  def isEnable: Boolean = {
-    getLogBackConfigurationFilePath match {
+  private[this] val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
+  private val configurationFilePath: Option[String] = this.getConfigurationFilePath
+  private val isEnable: Boolean = {
+    getConfigurationFilePath match {
       case Some(v) => true
       case _ => false
     }
   }
 
-  def getLogBackConfigurationFilePath: Option[String] = {
+  private[this] def getConfigurationFilePath: Option[String] = {
     val rootLoggerCtx = ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext
-    val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList()
+    val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList
     watchList.size() match {
       case 0 => None
       case _ => Some(watchList.get(0).toString)
     }
   }
 
-  def readLogBackConfigurationFile: Option[String] = {
-    getLogBackConfigurationFilePath match {
+  def readConfigurationFile: Option[String] = {
+    getConfigurationFilePath match {
       case Some(s) => {
         val bytes = Files.readAllBytes(Paths.get(s))
         Some(StringUtil.convertFromByteArray(bytes))
@@ -40,8 +39,7 @@ object LogBack {
     }
   }
 
-  def getLogFilePaths: Option[List[String]] = {
-
+  def getLogFilesPath: Option[List[String]] = {
     var paths = List[String]()
     for (logger <- ctx.getLoggerList.asScala) {
       val i = logger.iteratorForAppenders
@@ -60,5 +58,19 @@ object LogBack {
       None
     }
   }
+
+}
+
+object LogBack {
+
+  private var instance = new LogBack
+
+  def isEnable: Boolean = instance.isEnable
+
+  def getConfigurationFilePath: Option[String] = instance.configurationFilePath
+
+  def readConfigurationFile: Option[String] = instance.readConfigurationFile
+
+  def getLogFilesPath: Option[List[String]] = instance.getLogFilesPath
 
 }

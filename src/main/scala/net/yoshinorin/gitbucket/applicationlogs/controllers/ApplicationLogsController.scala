@@ -13,18 +13,18 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   private val logger = LoggerFactory.getLogger(getClass)
 
   get("/admin/application-logs")(adminOnly {
-    LogBack.getLogFilePaths
+    LogBack.getLogFilesPath
     logger.error(LogBack.isEnable.toString)
-    logger.error(LogBack.getLogBackConfigurationFilePath.toString)
+    logger.error(LogBack.getConfigurationFilePath.toString)
     redirect(s"/admin/application-logs/logback")
   })
 
   get("/admin/application-logs/logback")(adminOnly {
     net.yoshinorin.gitbucket.applicationlogs.html.logback(
       LogBack.isEnable,
-      LogBack.getLogBackConfigurationFilePath,
-      LogBack.readLogBackConfigurationFile,
-      LogBack.getLogFilePaths.headOption
+      LogBack.getConfigurationFilePath,
+      LogBack.readConfigurationFile,
+      LogBack.getLogFilesPath.headOption
     )
   })
 
@@ -32,7 +32,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val lineNum = request.getParameter("lines")
 
-    LogBack.getLogFilePaths.headOption match {
+    LogBack.getLogFilesPath.headOption match {
       case Some(path) => {
         var n = defaultDisplayLines
         if (Try(lineNum.toInt).toOption != None) {
