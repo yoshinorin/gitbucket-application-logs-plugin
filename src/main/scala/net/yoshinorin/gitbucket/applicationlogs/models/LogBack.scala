@@ -30,16 +30,6 @@ class LogBack {
     }
   }
 
-  def readConfigurationFile: Option[String] = {
-    getConfigurationFilePath match {
-      case Some(s) => {
-        val bytes = Files.readAllBytes(Paths.get(s))
-        Some(StringUtil.convertFromByteArray(bytes))
-      }
-      case None => None
-    }
-  }
-
   def getLogFilesPath: Option[List[String]] = {
     var paths = List[String]()
     for (logger <- ctx.getLoggerList.asScala) {
@@ -60,6 +50,16 @@ class LogBack {
     }
   }
 
+  def readConfigurationFile: Option[String] = {
+    getConfigurationFilePath match {
+      case Some(s) => {
+        val bytes = Files.readAllBytes(Paths.get(s))
+        Some(StringUtil.convertFromByteArray(bytes))
+      }
+      case None => None
+    }
+  }
+
 }
 
 object LogBack {
@@ -68,12 +68,6 @@ object LogBack {
 
   var logFiles: Option[List[LogFile]] = getLogFiles
 
-  def isEnable: Boolean = instance.isEnable
-
-  def getConfigurationFilePath: Option[String] = instance.configurationFilePath
-
-  def readConfigurationFile: Option[String] = instance.readConfigurationFile
-
   private def getLogFiles: Option[List[LogFile]] = {
     instance.getLogFilesPath match {
       case Some(paths) => {
@@ -81,6 +75,16 @@ object LogBack {
       }
       case None => None
     }
+  }
+
+  def isEnable: Boolean = instance.isEnable
+
+  def getConfigurationFilePath: Option[String] = instance.configurationFilePath
+
+  def readConfigurationFile: Option[String] = instance.readConfigurationFile
+
+  def reload(): Unit = {
+    instance = new LogBack
   }
 
 }
