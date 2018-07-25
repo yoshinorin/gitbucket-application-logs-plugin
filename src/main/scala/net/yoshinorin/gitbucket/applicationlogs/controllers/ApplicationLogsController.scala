@@ -13,7 +13,6 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   private val logger = LoggerFactory.getLogger(getClass)
 
   get("/admin/application-logs")(adminOnly {
-    LogBack.getLogFilesPath
     redirect(s"/admin/application-logs/logback")
   })
 
