@@ -1,8 +1,6 @@
-@import scala.collection.mutable.ArrayBuffer
-
 @(defaultDisplayLines: Int,
   displayLimitLines: Int,
-  log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, ArrayBuffer[String]],
+  log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, List[String]],
   lineNums: Int)(implicit context: gitbucket.core.controller.Context)
 
 @import context._
