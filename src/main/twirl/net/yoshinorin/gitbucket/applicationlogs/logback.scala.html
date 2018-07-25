@@ -1,7 +1,7 @@
 @(isEnable: Boolean,
   logBackConfigurationFilePath: Option[String],
   logBackConfigurationFileContent: Option[String],
-  logFilePath: Option[List[String]])(implicit context: gitbucket.core.controller.Context)
+  logFiles: Option[List[net.yoshinorin.gitbucket.applicationlogs.models.LogFile]])(implicit context: gitbucket.core.controller.Context)
 
 @import context._
 @import net.yoshinorin.gitbucket.applicationlogs.utils.Error
@@ -20,10 +20,11 @@
           <div class="row">
             <label class="col-md-2">Log file's path</label>
             <span class="col-md-10">
-            @logFilePath match {
-              case Some(v) => { @v.headOption }
-              case None => { net.yoshinorin.gitbucket.applicationlogs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
-            }
+              <!--TODO: loop and display them-->
+              @logFiles match {
+                case Some(v) => { @v.head.path }
+                case None => { net.yoshinorin.gitbucket.applicationlogs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
+              }
             </span>
           </div>
         </div>

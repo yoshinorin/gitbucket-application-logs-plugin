@@ -11,14 +11,14 @@ trait ApplicationLogService {
   val defaultDisplayLines: Int = 1000
   val displayLimitLines: Int = 10000
 
-  def readLog(path: String, n: Int = defaultDisplayLines): Try[Option[ArrayBuffer[String]]] = Try {
+  def readLog(logfile: LogFile, n: Int = defaultDisplayLines): Try[Option[ArrayBuffer[String]]] = Try {
 
-    val logFile = new File(path)
+    val logFile = new File(logfile.path)
     if (!logFile.exists()) {
       None
     }
 
-    val r = new ReversedLinesFileReader(new File(path), Charset.defaultCharset())
+    val r = new ReversedLinesFileReader(new File(logfile.path), Charset.defaultCharset())
     try {
       var counter: Int = 0
       var line: String = ""

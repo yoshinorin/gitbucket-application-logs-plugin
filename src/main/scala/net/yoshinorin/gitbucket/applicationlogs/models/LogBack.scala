@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.applicationlogs.models
 
+import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
 import ch.qos.logback.classic.LoggerContext
@@ -65,12 +66,27 @@ object LogBack {
 
   private var instance = new LogBack
 
+  var logFiles: Option[List[LogFile]] = getLogFiles
+
   def isEnable: Boolean = instance.isEnable
 
   def getConfigurationFilePath: Option[String] = instance.configurationFilePath
 
   def readConfigurationFile: Option[String] = instance.readConfigurationFile
 
-  def getLogFilesPath: Option[List[String]] = instance.getLogFilesPath
+  private def getLogFiles: Option[List[LogFile]] = {
+    instance.getLogFilesPath match {
+      case Some(paths) => {
+        Some(paths.zipWithIndex.map(path => LogFile(path._2, path._1, Charset.defaultCharset()))) //TODO: Set CharacterSet from configuration file.
+      }
+      case None => None
+    }
+  }
 
 }
+
+case class LogFile(
+  id: Int,
+  path: String,
+  characterSet: Charset = Charset.defaultCharset()
+)
