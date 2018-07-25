@@ -4,23 +4,27 @@ import scala.util.{Failure, Success, Try}
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
-import net.yoshinorin.gitbucket.applicationlogs.services._
+import net.yoshinorin.gitbucket.applicationlogs.models.LogBack
+import net.yoshinorin.gitbucket.applicationlogs.services.ApplicationLogService
 import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
-class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService with LogBackService {
+class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
   get("/admin/application-logs")(adminOnly {
+    LogBack.getLogFilePaths
+    logger.error(LogBack.isEnable.toString)
+    logger.error(LogBack.getLogBackConfigurationFilePath.toString)
     redirect(s"/admin/application-logs/logback")
   })
 
   get("/admin/application-logs/logback")(adminOnly {
     net.yoshinorin.gitbucket.applicationlogs.html.logback(
-      isEnable,
-      getLogBackConfigurationFilePath,
-      readLogBackConfigurationFile,
-      getLogFilePaths.headOption
+      LogBack.isEnable,
+      LogBack.getLogBackConfigurationFilePath,
+      LogBack.readLogBackConfigurationFile,
+      LogBack.getLogFilePaths.headOption
     )
   })
 
@@ -28,7 +32,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val lineNum = request.getParameter("lines")
 
-    getLogFilePaths.headOption match {
+    LogBack.getLogFilePaths.headOption match {
       case Some(path) => {
         var n = defaultDisplayLines
         if (Try(lineNum.toInt).toOption != None) {

@@ -1,4 +1,4 @@
-package net.yoshinorin.gitbucket.applicationlogs.services
+package net.yoshinorin.gitbucket.applicationlogs.models
 
 import java.nio.file.{Files, Paths}
 import scala.collection.JavaConverters._
@@ -10,7 +10,7 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import org.slf4j.LoggerFactory
 import gitbucket.core.util.StringUtil
 
-trait LogBackService {
+object LogBack {
 
   private val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
 
