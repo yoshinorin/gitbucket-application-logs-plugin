@@ -22,7 +22,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
       LogBack.isEnable,
       LogBack.getConfigurationFilePath,
       LogBack.readConfigurationFile,
-      LogBack.getLogFilesPath.headOption
+      LogBack.getLogFilesPath
     )
   })
 
@@ -30,10 +30,10 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val lineNum = request.getParameter("lines")
 
-    LogBack.getLogFilesPath.headOption match {
+    LogBack.getLogFilesPath match {
       case Some(path) => {
         var n = defaultDisplayLines
-        if (Try(lineNum.toInt).toOption != None) {
+        if (Try(lineNum.toInt).toOption.isDefined) {
           n = lineNum.toInt
         }
         val logs = readLog(path.head, n) match {

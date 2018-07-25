@@ -52,7 +52,7 @@ class LogBack {
         }
       }
     }
-    if (paths.size != 0) {
+    if (paths.nonEmpty) {
       Some(paths)
     } else {
       None
