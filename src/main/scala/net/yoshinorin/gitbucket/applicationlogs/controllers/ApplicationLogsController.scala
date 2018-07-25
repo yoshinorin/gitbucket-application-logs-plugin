@@ -14,8 +14,6 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
   get("/admin/application-logs")(adminOnly {
     LogBack.getLogFilesPath
-    logger.error(LogBack.isEnable.toString)
-    logger.error(LogBack.getConfigurationFilePath.toString)
     redirect(s"/admin/application-logs/logback")
   })
 
