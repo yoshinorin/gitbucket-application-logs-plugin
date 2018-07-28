@@ -1,10 +1,12 @@
-@(implicit context: gitbucket.core.controller.Context)
+@(isEnable: Boolean)(implicit context: gitbucket.core.controller.Context)
 
 <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-  <li>
-    <a href="@context.path/admin/application-logs/logback">LogBack Settings</a>
+  <li @if(context.request.getRequestURI.endsWith("configuration")) {class="active"}>
+    <a href="@context.path/admin/application-logs/configuration">Configuration</a>
   </li>
-  <li>
-    <a href="@context.path/admin/application-logs/gitbucketlog">GitBucket Log</a>
-  </li>
+  @if(isEnable) {
+    <li @if(context.request.getRequestURI.endsWith("list")) {class="active"}>
+      <a href="@context.path/admin/application-logs/list">Logs</a>
+    </li>
+  }
 </ul>

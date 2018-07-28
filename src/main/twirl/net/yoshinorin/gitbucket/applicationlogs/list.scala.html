@@ -1,0 +1,42 @@
+@(isEnable: Boolean,
+  logFiles: Option[List[net.yoshinorin.gitbucket.applicationlogs.models.LogFile]])(implicit context: gitbucket.core.controller.Context)
+
+@import context._
+@import net.yoshinorin.gitbucket.applicationlogs.utils.Error
+
+@gitbucket.core.html.main("Application Logs") {
+  @gitbucket.core.admin.html.menu("applicationlogs") {
+    @net.yoshinorin.gitbucket.applicationlogs.html.status(isEnable)
+    @net.yoshinorin.gitbucket.applicationlogs.html.navigation(isEnable)
+    @logFiles match {
+      case Some(files) => {
+        <div class="head" style="height: 24px;">
+          Log files
+        </div>
+        <table class="table table-hover">
+          <tr>
+            <th>No</th>
+            <th>File path</th>
+            <th></th>
+          </tr>
+          <tr>
+            @for(v <- files) {
+              <tr>
+                <td>#@v.id</td>
+                <td>
+                  <a href="/admin/application-logs/@v.id/view">@v.path</a>
+                </td>
+                <td>
+                  <a href="/admin/application-logs/@v.id/view" class="btn btn-sm btn-default">
+                    <i class="fa fa-eye">&nbsp;View</i>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tr>
+        </table>
+      }
+      case None => { net.yoshinorin.gitbucket.applicationlogs.utils.Error.NOT_FOUND_LOGBACK_SETTINGS }
+    }
+  }
+}
