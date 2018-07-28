@@ -71,7 +71,10 @@ object LogBack {
   private def getLogFiles: Option[List[LogFile]] = {
     instance.getLogFilesPath match {
       case Some(paths) => {
-        Some(paths.zipWithIndex.map(path => LogFile(path._2, path._1, Charset.defaultCharset()))) //TODO: Set CharacterSet from configuration file.
+        Some(paths.zipWithIndex.map {
+          case (v, i) =>
+            LogFile(i + 1, v, Charset.defaultCharset()) //TODO: Set CharacterSet from configuration file.
+        })
       }
       case None => None
     }
