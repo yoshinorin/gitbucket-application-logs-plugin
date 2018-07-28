@@ -1,4 +1,6 @@
-@(defaultDisplayLines: Int,
+@(isEnable: Boolean,
+  logFile: net.yoshinorin.gitbucket.applicationlogs.models.LogFile,
+  defaultDisplayLines: Int,
   displayLimitLines: Int,
   log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, List[String]],
   lineNums: Int)(implicit context: gitbucket.core.controller.Context)
@@ -8,11 +10,16 @@
 
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
-    @net.yoshinorin.gitbucket.applicationlogs.html.navigation(context)
+    @net.yoshinorin.gitbucket.applicationlogs.html.status(isEnable)
+    @net.yoshinorin.gitbucket.applicationlogs.html.navigation(isEnable)
+    <div class="head" style="height: 24px;">
+      <a href="@context.path/admin/application-logs/list">Logs</a> / @logFile.id
+    </div>
+    <hr>
     @log match {
       case Left(e) => { @e.message }
       case Right(v) => {
-        <form id="get-log-from-tail" action="@context.path/admin/application-logs/gitbucketlog" method="get" class="form-inline">
+        <form id="get-log-from-tail" action="@context.path/admin/application-logs/@logFile.id/view" method="get" class="form-inline">
           <div class="form-group">
             <button type="submit button" class="btn btn-default">
               <i class="glyphicon glyphicon-refresh"></i>
@@ -22,6 +29,11 @@
           </div>
         </form>
         <br>
+        <div class="box-header">
+          <span class="glyphicon glyphicon-file">
+            <span class="label label-default ">@logFile.path</span>
+          </span>
+        </div>
         <div class="box-content-bottom">
           <pre class="prettyprint linenums blob">
             @for(x <- v) { @x

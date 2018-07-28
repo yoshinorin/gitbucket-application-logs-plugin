@@ -4,7 +4,7 @@ import scala.util.{Failure, Success, Try}
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
-import net.yoshinorin.gitbucket.applicationlogs.models.LogBack
+import net.yoshinorin.gitbucket.applicationlogs.models.{LogBack, LogFile}
 import net.yoshinorin.gitbucket.applicationlogs.services.ApplicationLogService
 import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
@@ -13,30 +13,37 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   private val logger = LoggerFactory.getLogger(getClass)
 
   get("/admin/application-logs")(adminOnly {
-    redirect(s"/admin/application-logs/logback")
+    redirect(s"/admin/application-logs/configuration")
   })
 
-  get("/admin/application-logs/logback")(adminOnly {
-    net.yoshinorin.gitbucket.applicationlogs.html.logback(
+  get("/admin/application-logs/configuration")(adminOnly {
+    net.yoshinorin.gitbucket.applicationlogs.html.configuration(
       LogBack.isEnable,
       LogBack.getConfigurationFilePath,
-      LogBack.readConfigurationFile,
+      LogBack.readConfigurationFile
+    )
+  })
+
+  get("/admin/application-logs/list")(adminOnly {
+    net.yoshinorin.gitbucket.applicationlogs.html.list(
+      LogBack.isEnable,
       LogBack.logFiles
     )
   })
 
-  get("/admin/application-logs/gitbucketlog")(adminOnly {
+  get("/admin/application-logs/:id/view")(adminOnly {
 
-    val lineNum = request.getParameter("lines")
+    val logId = params("id").toInt
 
     LogBack.logFiles match {
-      case Some(path) => {
+      case Some(v) => {
         var n = defaultDisplayLines
+        val lineNum = request.getParameter("lines")
         if (Try(lineNum.toInt).toOption.isDefined) {
           n = lineNum.toInt
         }
-        //TODO: specify log id
-        val logs = readLog(path.head, n) match {
+        val logFile = v.find(_.id == logId).get
+        val logs = readLog(logFile, n) match {
           case Success(s) =>
             s match {
               case Some(s) => Right(s)
@@ -47,11 +54,16 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
             Left(Error.FAILURE)
           }
         }
-        net.yoshinorin.gitbucket.applicationlogs.html.logviewer(defaultDisplayLines, displayLimitLines, logs, n)
+        net.yoshinorin.gitbucket.applicationlogs.html.logviewer(
+          LogBack.isEnable,
+          logFile,
+          defaultDisplayLines,
+          displayLimitLines,
+          logs,
+          n
+        )
       }
-      case _ => {
-        Left(Error.FAILURE)
-      }
+      case _ => NotFound()
     }
   })
 }
