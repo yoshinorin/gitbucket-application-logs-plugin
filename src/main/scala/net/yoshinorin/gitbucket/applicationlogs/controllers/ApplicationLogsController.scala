@@ -47,7 +47,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
             Left(Error.FAILURE)
           }
         }
-        net.yoshinorin.gitbucket.applicationlogs.html.gitbucketlog(defaultDisplayLines, displayLimitLines, logs, n)
+        net.yoshinorin.gitbucket.applicationlogs.html.logviewer(defaultDisplayLines, displayLimitLines, logs, n)
       }
       case _ => {
         Left(Error.FAILURE)
