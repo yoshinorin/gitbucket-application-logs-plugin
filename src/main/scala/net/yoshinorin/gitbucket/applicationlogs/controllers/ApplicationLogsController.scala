@@ -25,10 +25,17 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   })
 
   get("/admin/application-logs/list")(adminOnly {
-    net.yoshinorin.gitbucket.applicationlogs.html.list(
-      LogBack.isEnable,
-      LogBack.logFiles
-    )
+
+    LogBack.isEnable match {
+      case true => {
+        net.yoshinorin.gitbucket.applicationlogs.html.list(
+          LogBack.isEnable,
+          LogBack.logFiles
+        )
+      }
+      case false => NotFound()
+    }
+
   })
 
   get("/admin/application-logs/:id/view")(adminOnly {
