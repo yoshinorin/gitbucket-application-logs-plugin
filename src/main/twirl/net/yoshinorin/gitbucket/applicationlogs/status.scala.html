@@ -1,7 +1,21 @@
 @(isEnable: Boolean)
 
 @if(isEnable) {
-  <span class="label label-primary">Enable</span>
+  <span>
+    <label class=status-label style=background-color:#3c8dbc>Enable</label>
+  </span>
 } else {
-  <span class="label label-danger">Disable</span>
+  <span>
+    <label class=status-label style=background-color:#dd4b39>Disable</label>
+  </span>
 }
+
+<style>
+.status-label {
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+</style>
