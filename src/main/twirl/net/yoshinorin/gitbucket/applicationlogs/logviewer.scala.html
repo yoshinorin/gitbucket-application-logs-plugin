@@ -13,9 +13,8 @@
     @net.yoshinorin.gitbucket.applicationlogs.html.status(isEnable)
     @net.yoshinorin.gitbucket.applicationlogs.html.navigation(isEnable)
     <div class="head" style="height: 24px;">
-      <a href="@context.path/admin/application-logs/list">Logs</a> / @logFile.id
+      <a href="@context.path/admin/application-logs/list">Logs</a> / #@logFile.id
     </div>
-    <hr>
     @log match {
       case Left(e) => { @e.message }
       case Right(v) => {
