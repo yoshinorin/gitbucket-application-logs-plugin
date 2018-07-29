@@ -35,14 +35,13 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val logId = params("id").toInt
 
-    LogBack.logFiles match {
-      case Some(v) => {
+    LogBack.logFiles.get.find(_.id == logId) match {
+      case Some(logFile) => {
         var n = defaultDisplayLines
         val lineNum = request.getParameter("lines")
         if (Try(lineNum.toInt).toOption.isDefined) {
           n = lineNum.toInt
         }
-        val logFile = v.find(_.id == logId).get
         val logs = readLog(logFile, n) match {
           case Success(s) =>
             s match {
@@ -63,7 +62,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
           n
         )
       }
-      case _ => NotFound()
+      case None => NotFound()
     }
   })
 }
