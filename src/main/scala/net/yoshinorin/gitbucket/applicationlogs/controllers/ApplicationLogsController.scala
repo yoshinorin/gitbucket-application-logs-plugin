@@ -1,6 +1,10 @@
 package net.yoshinorin.gitbucket.applicationlogs.controllers
 
+import java.io.{File, FileInputStream}
+import java.nio.charset.Charset
 import scala.util.{Failure, Success, Try}
+import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipArchiveOutputStream}
+import org.apache.commons.compress.utils.IOUtils
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
@@ -70,6 +74,38 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
         )
       }
       case None => NotFound()
+    }
+  })
+
+  get("/admin/application-logs/:id/download")(adminOnly {
+
+    val logId = params("id").toInt
+
+    LogBack.logFiles.get.find(_.id == logId).get match {
+      case logFile: LogFile => {
+
+        val file = new File(logFile.path)
+        response.setHeader(
+          "Content-Disposition",
+          s"attachment; filename=${file.getName}.zip"
+        )
+        contentType = "application/zip"
+        response.setBufferSize(1024 * 1024)
+
+        val zipArchiveOutStream = new ZipArchiveOutputStream(response.outputStream)
+        zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
+
+        try {
+          val zipArchive = new ZipArchiveEntry(file.getName)
+          zipArchive.setSize(1024)
+          zipArchiveOutStream.putArchiveEntry(zipArchive)
+          IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
+        } finally {
+          zipArchiveOutStream.closeArchiveEntry
+          zipArchiveOutStream.close
+        }
+      }
+      case _ => NotFound()
     }
   })
 }
