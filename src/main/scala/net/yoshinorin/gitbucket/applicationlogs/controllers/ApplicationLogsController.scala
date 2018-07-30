@@ -46,7 +46,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val logId = params("id").toInt
 
-    LogBack.logFiles.get.find(_.id == logId) match {
+    LogBack.findById(logId) match {
       case Some(logFile) => {
         var n = defaultDisplayLines
         val lineNum = request.getParameter("lines")
@@ -81,10 +81,9 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
     val logId = params("id").toInt
 
-    LogBack.logFiles.get.find(_.id == logId).get match {
-      case logFile: LogFile => {
-
-        val file = new File(logFile.path)
+    LogBack.findById(logId) match {
+      case Some(v) => {
+        val file = new File(v.path)
         response.setHeader(
           "Content-Disposition",
           s"attachment; filename=${file.getName}.zip"

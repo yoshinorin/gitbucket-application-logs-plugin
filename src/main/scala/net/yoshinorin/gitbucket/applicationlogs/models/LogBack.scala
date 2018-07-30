@@ -82,6 +82,10 @@ object LogBack {
 
   def isEnable: Boolean = instance.isEnable
 
+  def findById(id: Int): Option[LogFile] = {
+    logFiles.get.find(_.id == id)
+  }
+
   def getConfigurationFilePath: Option[String] = instance.configurationFilePath
 
   def readConfigurationFile: Option[String] = instance.readConfigurationFile
