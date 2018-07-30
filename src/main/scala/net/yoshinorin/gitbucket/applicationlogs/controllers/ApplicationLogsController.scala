@@ -97,7 +97,6 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
         try {
           val zipArchive = new ZipArchiveEntry(file.getName)
-          zipArchive.setSize(1024)
           zipArchiveOutStream.putArchiveEntry(zipArchive)
           IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
         } finally {
