@@ -99,8 +99,8 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
           zipArchiveOutStream.putArchiveEntry(zipArchive)
           IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
         } finally {
-          zipArchiveOutStream.closeArchiveEntry
-          zipArchiveOutStream.close
+          zipArchiveOutStream.closeArchiveEntry()
+          zipArchiveOutStream.close()
         }
       }
       case _ => NotFound()
