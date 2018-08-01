@@ -8,7 +8,7 @@ import org.apache.commons.compress.utils.IOUtils
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
-import net.yoshinorin.gitbucket.applicationlogs.models.{LogBack, LogFile}
+import net.yoshinorin.gitbucket.applicationlogs.models.LogBack
 import net.yoshinorin.gitbucket.applicationlogs.services.ApplicationLogService
 import net.yoshinorin.gitbucket.applicationlogs.utils.Error
 
