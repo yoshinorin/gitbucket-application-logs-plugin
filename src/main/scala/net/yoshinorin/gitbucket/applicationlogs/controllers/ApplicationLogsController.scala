@@ -5,6 +5,7 @@ import java.nio.charset.Charset
 import scala.util.{Failure, Success, Try}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipArchiveOutputStream}
 import org.apache.commons.compress.utils.IOUtils
+import org.apache.commons.io.output.ByteArrayOutputStream
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
@@ -91,16 +92,18 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
         contentType = "application/zip"
         response.setBufferSize(1024 * 1024)
 
-        val zipArchiveOutStream = new ZipArchiveOutputStream(response.outputStream)
-        zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
+        val byteArrayStream = new ByteArrayOutputStream()
+        val zipArchiveOutStream = new ZipArchiveOutputStream(byteArrayStream)
 
         try {
+          zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
           val zipArchive = new ZipArchiveEntry(file.getName)
           zipArchiveOutStream.putArchiveEntry(zipArchive)
           IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
         } finally {
           zipArchiveOutStream.closeArchiveEntry()
           zipArchiveOutStream.close()
+          byteArrayStream.close()
         }
       }
       case _ => NotFound()
