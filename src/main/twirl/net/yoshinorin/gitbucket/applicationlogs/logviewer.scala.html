@@ -34,7 +34,8 @@
           </span>
         </div>
         <div class="box-content-bottom">
-          <pre class="prettyprint linenums blob">
+          <!--HACK: max-height calculation is temporary. -->
+          <pre class="prettyprint linenums blob" style="max-height: calc(100vh - 250px); overflow-y: scroll;">
             @for(x <- v) { @x
             }
           </pre>
