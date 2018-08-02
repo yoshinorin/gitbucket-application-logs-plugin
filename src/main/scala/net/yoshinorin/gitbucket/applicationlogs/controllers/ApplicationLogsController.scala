@@ -11,7 +11,8 @@ import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.applicationlogs.models.LogBack
 import net.yoshinorin.gitbucket.applicationlogs.services.ApplicationLogService
-import net.yoshinorin.gitbucket.applicationlogs.utils.Error
+import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortType}
+import net.yoshinorin.gitbucket.applicationlogs.utils.Converter.stringConverter
 
 class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService {
 
@@ -46,6 +47,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   get("/admin/application-logs/:id/view")(adminOnly {
 
     val logId = params("id").toInt
+    val sortBy = params.getOrElse("sortBy", "asc").toString.toSortType
 
     LogBack.findById(logId) match {
       case Some(logFile) => {
@@ -57,7 +59,12 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
         val logs = readLog(logFile, n) match {
           case Success(s) =>
             s match {
-              case Some(s) => Right(s)
+              case Some(s) => {
+                sortBy match {
+                  case SortType.ASC => Right(s)
+                  case SortType.DESC => Right(s.reverse)
+                }
+              }
               case None => Left(Error.FILE_NOT_FOUND)
             }
           case Failure(f) => {
@@ -65,13 +72,15 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
             Left(Error.FAILURE)
           }
         }
+
         net.yoshinorin.gitbucket.applicationlogs.html.logviewer(
           LogBack.isEnable,
           logFile,
           defaultDisplayLines,
           displayLimitLines,
           logs,
-          n
+          n,
+          sortBy
         )
       }
       case None => NotFound()

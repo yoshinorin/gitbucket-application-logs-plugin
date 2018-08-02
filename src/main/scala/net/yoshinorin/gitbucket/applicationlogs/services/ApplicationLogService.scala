@@ -5,11 +5,13 @@ import java.nio.charset.Charset
 import scala.util.Try
 import org.apache.commons.io.input.ReversedLinesFileReader
 import net.yoshinorin.gitbucket.applicationlogs.models.LogFile
+import net.yoshinorin.gitbucket.applicationlogs.utils.SortType
 
 trait ApplicationLogService {
 
   val defaultDisplayLines: Int = 1000
   val displayLimitLines: Int = 10000
+  val sortTypes: List[SortType] = List(SortType.ASC, SortType.DESC)
 
   def readLog(logfile: LogFile, n: Int = defaultDisplayLines): Try[Option[List[String]]] = Try {
     val logFile = new File(logfile.path)
