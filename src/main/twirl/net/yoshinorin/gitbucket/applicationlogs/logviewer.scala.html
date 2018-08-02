@@ -4,11 +4,11 @@
   displayLimitLines: Int,
   log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, List[String]],
   lineNums: Int,
-  curretSortType: net.yoshinorin.gitbucket.applicationlogs.utils.SortTypes
+  curretSortType: net.yoshinorin.gitbucket.applicationlogs.utils.SortType
 )(implicit context: gitbucket.core.controller.Context)
 
 @import context._
-@import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortTypes}
+@import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortType}
 
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
@@ -23,13 +23,13 @@
             <div class="form-group">
               <select class="form-control small" name="sortBy">
                 @curretSortType match {
-                  case SortTypes.ASC => {
-                    <option value="@SortTypes.ASC.value" selected="selected">@SortTypes.ASC.value</option>
-                    <option value="@SortTypes.DESC.value">@SortTypes.DESC.value</option>
+                  case SortType.ASC => {
+                    <option value="@SortType.ASC.value" selected="selected">@SortType.ASC.value</option>
+                    <option value="@SortType.DESC.value">@SortType.DESC.value</option>
                   }
-                  case SortTypes.DESC => {
-                    <option value="@SortTypes.ASC.value">@SortTypes.ASC.value</option>
-                    <option value="@SortTypes.DESC.value" selected="selected">@SortTypes.DESC.value</option>
+                  case SortType.DESC => {
+                    <option value="@SortType.ASC.value">@SortType.ASC.value</option>
+                    <option value="@SortType.DESC.value" selected="selected">@SortType.DESC.value</option>
                   }
                 }
               </select>

@@ -1,10 +1,10 @@
 package net.yoshinorin.gitbucket.applicationlogs.utils
 
-sealed abstract class SortTypes(val value: String)
+sealed abstract class SortType(val value: String)
 
-object SortTypes {
+object SortType {
 
-  object ASC extends SortTypes("asc")
-  object DESC extends SortTypes("desc")
+  object ASC extends SortType("asc")
+  object DESC extends SortType("desc")
 
 }

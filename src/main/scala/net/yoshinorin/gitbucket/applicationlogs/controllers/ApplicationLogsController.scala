@@ -11,7 +11,7 @@ import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.applicationlogs.models.LogBack
 import net.yoshinorin.gitbucket.applicationlogs.services.ApplicationLogService
-import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortTypes}
+import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortType}
 import net.yoshinorin.gitbucket.applicationlogs.utils.Converter.stringConverter
 
 class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService {
@@ -61,8 +61,8 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
             s match {
               case Some(s) => {
                 sortBy match {
-                  case SortTypes.ASC => Right(s)
-                  case SortTypes.DESC => Right(s.reverse)
+                  case SortType.ASC => Right(s)
+                  case SortType.DESC => Right(s.reverse)
                 }
               }
               case None => Left(Error.FILE_NOT_FOUND)

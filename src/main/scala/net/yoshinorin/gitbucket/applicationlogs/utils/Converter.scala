@@ -4,11 +4,11 @@ object Converter {
 
   implicit class stringConverter(s: String) {
 
-    def toSortType: SortTypes = {
+    def toSortType: SortType = {
       s.toUpperCase match {
-        case "ASC" => SortTypes.ASC
-        case "DESC" => SortTypes.DESC
-        case _ => SortTypes.ASC
+        case "ASC" => SortType.ASC
+        case "DESC" => SortType.DESC
+        case _ => SortType.ASC
       }
     }
 
