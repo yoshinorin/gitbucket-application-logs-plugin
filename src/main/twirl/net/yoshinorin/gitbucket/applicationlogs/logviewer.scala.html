@@ -3,10 +3,12 @@
   defaultDisplayLines: Int,
   displayLimitLines: Int,
   log: Either[net.yoshinorin.gitbucket.applicationlogs.utils.Error, List[String]],
-  lineNums: Int)(implicit context: gitbucket.core.controller.Context)
+  lineNums: Int,
+  curretSortType: net.yoshinorin.gitbucket.applicationlogs.utils.SortTypes
+)(implicit context: gitbucket.core.controller.Context)
 
 @import context._
-@import net.yoshinorin.gitbucket.applicationlogs.utils.Error
+@import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortTypes}
 
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
@@ -19,9 +21,23 @@
           <a href="@context.path/admin/application-logs/list">Logs</a> / #@logFile.id
           <form action="@context.path/admin/application-logs/@logFile.id/view" method="get" class="form-inline pull-right" style="font-size: small">
             <div class="form-group">
-              <input type="text" value="@lineNums" name="lines" class="form-control input-sm" style="max-width: 60px;" placeholder="@lineNums"/> lines from last.&nbsp;
-              <button type="submit button" class="btn btn-success">Reload</button>
+              <select class="form-control small" name="sortBy">
+                @curretSortType match {
+                  case SortTypes.ASC => {
+                    <option value="@SortTypes.ASC.value" selected="selected">@SortTypes.ASC.value</option>
+                    <option value="@SortTypes.DESC.value">@SortTypes.DESC.value</option>
+                  }
+                  case SortTypes.DESC => {
+                    <option value="@SortTypes.ASC.value">@SortTypes.ASC.value</option>
+                    <option value="@SortTypes.DESC.value" selected="selected">@SortTypes.DESC.value</option>
+                  }
+                }
+              </select>
             </div>
+            <div class="form-group">
+              <input type="text" value="@lineNums" name="lines" class="form-control input-sm" style="max-width: 60px;" placeholder="@lineNums"/> lines from last.
+            </div>
+            <button type="submit button" class="btn btn-success">Reload</button>
           </form>
         </div>
         <div class="box-header">
