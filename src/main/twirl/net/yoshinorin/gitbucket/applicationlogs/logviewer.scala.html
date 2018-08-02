@@ -12,22 +12,18 @@
   @gitbucket.core.admin.html.menu("applicationlogs") {
     @net.yoshinorin.gitbucket.applicationlogs.html.status(isEnable)
     @net.yoshinorin.gitbucket.applicationlogs.html.navigation(isEnable)
-    <div class="head" style="height: 24px;">
-      <a href="@context.path/admin/application-logs/list">Logs</a> / #@logFile.id
-    </div>
     @log match {
       case Left(e) => { @e.message }
       case Right(v) => {
-        <form id="get-log-from-tail" action="@context.path/admin/application-logs/@logFile.id/view" method="get" class="form-inline">
-          <div class="form-group">
-            <button type="submit button" class="btn btn-default">
-              <i class="glyphicon glyphicon-refresh"></i>
-            </button>
-            <input type="text" value="@lineNums" name="lines" class="form-control" placeholder="@lineNums"/>
-            lines were display from the tail of log. You can specify the number of displayed lines value less than @displayLimitLines. Default is @defaultDisplayLines.
-          </div>
-        </form>
-        <br>
+        <div class="head" style="height: 24px; margin-bottom: 15px;">
+          <a href="@context.path/admin/application-logs/list">Logs</a> / #@logFile.id
+          <form action="@context.path/admin/application-logs/@logFile.id/view" method="get" class="form-inline pull-right" style="font-size: small">
+            <div class="form-group">
+              <input type="text" value="@lineNums" name="lines" class="form-control input-sm" style="max-width: 60px;" placeholder="@lineNums"/> lines from last.&nbsp;
+              <button type="submit button" class="btn btn-success">Reload</button>
+            </div>
+          </form>
+        </div>
         <div class="box-header">
           <span class="glyphicon glyphicon-file">
             <span class="label label-default ">@logFile.path</span>
