@@ -47,7 +47,6 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   get("/admin/application-logs/:id/view")(adminOnly {
 
     val logId = params("id").toInt
-    val sortBy = params.getOrElse("sortBy", "asc").toString.toSortType
 
     LogBack.findById(logId) match {
       case Some(logFile) => {
@@ -56,15 +55,13 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
         if (Try(lineNum.toInt).toOption.isDefined) {
           n = lineNum.toInt
         }
+
+        val sortBy = params.getOrElse("sortBy", "asc").toString.toSortType
         val logs = readLog(logFile, n) match {
           case Success(s) =>
             s match {
-              case Some(s) => {
-                sortBy match {
-                  case SortType.ASC => Right(s)
-                  case SortType.DESC => Right(s.reverse)
-                }
-              }
+              case Some(s) if sortBy == SortType.ASC => Right(s)
+              case Some(s) if sortBy == SortType.DESC => Right(s.reverse)
               case None => Left(Error.FILE_NOT_FOUND)
             }
           case Failure(f) => {

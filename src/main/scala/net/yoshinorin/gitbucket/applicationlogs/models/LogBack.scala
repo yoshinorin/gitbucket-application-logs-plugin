@@ -30,7 +30,7 @@ class LogBack {
     }
   }
 
-  def getLogFilesPath: Option[List[String]] = {
+  def getLogFilePaths: Option[List[String]] = {
     var paths = List[String]()
     for (logger <- ctx.getLoggerList.asScala) {
       val i = logger.iteratorForAppenders
@@ -69,7 +69,7 @@ object LogBack {
   var logFiles: Option[List[LogFile]] = getLogFiles
 
   private def getLogFiles: Option[List[LogFile]] = {
-    instance.getLogFilesPath match {
+    instance.getLogFilePaths match {
       case Some(paths) => {
         Some(paths.zipWithIndex.map {
           case (v, i) =>
