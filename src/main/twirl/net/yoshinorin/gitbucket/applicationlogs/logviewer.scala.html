@@ -38,7 +38,7 @@
               </select>
             </div>
             <div class="form-group">
-              <input type="text" value="@lineNums" name="lines" class="form-control input-sm" style="max-width: 60px;" placeholder="@lineNums"/> lines from last.
+              <input type="text" value="@lineNums" name="lines" class="form-control input-sm" style="max-width: 60px;" placeholder="@lineNums"/> lines from the tail.
             </div>
             <button type="submit button" class="btn btn-success">
               <i class="glyphicon glyphicon-refresh"></i>
@@ -61,12 +61,14 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
+                Log viewer options help
                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
               </div>
               <div class="modal-body">
                 <ul>
-                  <li>You can specify the number of display less than 10000.</li>
-                  <li>Default is 1000.</li>
+                  <li>Sort type are ascending or descending. (from tail of the log)</li>
+                  <li>You can specify the number of display less than @displayLimitLines .</li>
+                  <li>Default is @defaultDisplayLines .</li>
                 </ul>
               </div>
             </div>
