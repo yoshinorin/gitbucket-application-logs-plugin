@@ -20,6 +20,9 @@
         <div class="head" style="height: 24px; margin-bottom: 15px;">
           <a href="@context.path/admin/application-logs/list">Logs</a> / #@logFile.id
           <form action="@context.path/admin/application-logs/@logFile.id/view" method="get" class="form-inline pull-right" style="font-size: small">
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#helpModal">
+              <i class="fa fa-question-circle fa-lg"></i>
+            </button>
             <div class="form-group">
               <select class="form-control small" name="sortBy">
                 @curretSortType match {
@@ -53,6 +56,21 @@
             @for(x <- v) { @x
             }
           </pre>
+        </div>
+        <div class="modal fade" id="helpModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+              </div>
+              <div class="modal-body">
+                <ul>
+                  <li>You can specify the number of display less than 10000.</li>
+                  <li>Default is 1000.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       }
     }
