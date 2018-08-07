@@ -98,18 +98,15 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
         contentType = "application/zip"
         response.setBufferSize(1024 * 1024)
 
-        val byteArrayStream = new ByteArrayOutputStream()
-        val zipArchiveOutStream = new ZipArchiveOutputStream(byteArrayStream)
-
+        val zipArchiveOutStream = new ZipArchiveOutputStream(response.getOutputStream)
         try {
           zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
           val zipArchive = new ZipArchiveEntry(file.getName)
           zipArchiveOutStream.putArchiveEntry(zipArchive)
           IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
-        } finally {
           zipArchiveOutStream.closeArchiveEntry()
+        } finally {
           zipArchiveOutStream.close()
-          byteArrayStream.close()
         }
       }
       case _ => NotFound()
