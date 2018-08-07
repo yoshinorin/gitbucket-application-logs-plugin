@@ -5,7 +5,6 @@ import java.nio.charset.Charset
 import scala.util.{Failure, Success, Try}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipArchiveOutputStream}
 import org.apache.commons.compress.utils.IOUtils
-import org.apache.commons.io.output.ByteArrayOutputStream
 import org.slf4j.LoggerFactory
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
@@ -82,6 +81,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
       }
       case None => NotFound()
     }
+
   })
 
   get("/admin/application-logs/:id/download")(adminOnly {
@@ -111,5 +111,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
       }
       case _ => NotFound()
     }
+
   })
+
 }
