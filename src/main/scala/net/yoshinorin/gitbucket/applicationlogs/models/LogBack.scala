@@ -12,25 +12,31 @@ import gitbucket.core.util.StringUtil
 
 class LogBack {
 
-  private[this] val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
+  private val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
   private val configurationFilePath: Option[String] = this.getConfigurationFilePath
   private val isEnable: Boolean = {
     getConfigurationFilePath match {
-      case Some(v) => true
-      case _ => false
+      case Some(_) => true
+      case None => false
     }
   }
+  private val logFiles: Option[List[LogFile]] = getLogFiles
 
   private[this] def getConfigurationFilePath: Option[String] = {
-    val rootLoggerCtx = ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext
-    val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList
-    watchList.size() match {
-      case 0 => None
-      case _ => Some(watchList.get(0).toString)
+    Option(ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext) match {
+      case Some(rootLoggerCtx) => {
+        val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList
+        Option(watchList.size()) match {
+          case None => None
+          case Some(_) if watchList.size != 0 => Some(watchList.get(0).toString)
+          case Some(_) if watchList.size == 0 => None
+        }
+      }
+      case None => None
     }
   }
 
-  def getLogFilePaths: Option[List[String]] = {
+  private[this] def getLogFilePaths: Option[List[String]] = {
     var paths = List[String]()
     for (logger <- ctx.getLoggerList.asScala) {
       val i = logger.iteratorForAppenders
@@ -50,7 +56,19 @@ class LogBack {
     }
   }
 
-  def readConfigurationFile: Option[String] = {
+  private[this] def getLogFiles: Option[List[LogFile]] = {
+    getLogFilePaths match {
+      case Some(paths) => {
+        Some(paths.zipWithIndex.map {
+          case (v, i) =>
+            LogFile(i + 1, v, Charset.defaultCharset()) //TODO: Set CharacterSet from configuration file.
+        })
+      }
+      case None => None
+    }
+  }
+
+  private def readConfigurationFile: Option[String] = {
     getConfigurationFilePath match {
       case Some(s) => {
         val bytes = Files.readAllBytes(Paths.get(s))
@@ -66,24 +84,12 @@ object LogBack {
 
   private var instance = new LogBack
 
-  var logFiles: Option[List[LogFile]] = getLogFiles
-
-  private def getLogFiles: Option[List[LogFile]] = {
-    instance.getLogFilePaths match {
-      case Some(paths) => {
-        Some(paths.zipWithIndex.map {
-          case (v, i) =>
-            LogFile(i + 1, v, Charset.defaultCharset()) //TODO: Set CharacterSet from configuration file.
-        })
-      }
-      case None => None
-    }
-  }
+  def getLogFiles: Option[List[LogFile]] = instance.logFiles
 
   def isEnable: Boolean = instance.isEnable
 
   def findById(id: Int): Option[LogFile] = {
-    logFiles.get.find(_.id == id)
+    instance.logFiles.get.find(_.id == id)
   }
 
   def getConfigurationFilePath: Option[String] = instance.configurationFilePath

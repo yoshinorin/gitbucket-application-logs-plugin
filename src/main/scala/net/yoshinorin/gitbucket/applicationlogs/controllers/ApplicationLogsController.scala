@@ -36,7 +36,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
       case true => {
         net.yoshinorin.gitbucket.applicationlogs.html.list(
           LogBack.isEnable,
-          LogBack.logFiles
+          LogBack.getLogFiles
         )
       }
       case false => NotFound()
