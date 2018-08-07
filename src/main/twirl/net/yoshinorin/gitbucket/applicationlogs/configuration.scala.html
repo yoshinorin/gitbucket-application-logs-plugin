@@ -12,7 +12,7 @@
     @if(isEnable) {
       <div class="head" style="height: 24px;">
         Configuration file
-        <form action="@context.path/admin/application-logs/configuration/reload" method="post" class="pull-right">
+        <form id="reload-configuration-form" action="@context.path/admin/application-logs/configuration/reload" method="post" class="pull-right">
           <button type="submit button" class="btn btn-warning btn-sm">
             <i class="glyphicon glyphicon-refresh">&nbsp;Reload</i>
           </button>
@@ -38,3 +38,11 @@
     }
   }
 }
+
+<script>
+  $(function(){
+    $('#reload-configuration-form').submit(function(){
+      return confirm('LogBack root logger configuration will be reload.\nAre you sure?');
+    });
+  });
+</script>
