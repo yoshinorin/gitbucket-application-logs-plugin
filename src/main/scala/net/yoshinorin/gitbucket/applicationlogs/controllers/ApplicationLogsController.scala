@@ -30,6 +30,18 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
     )
   })
 
+  get("/admin/application-logs/configuration/reload")(adminOnly {
+
+    LogBack.isEnable match {
+      case true => {
+        LogBack.reload()
+        redirect(s"/admin/application-logs/configuration")
+      }
+      case false => NotFound()
+    }
+
+  })
+
   get("/admin/application-logs/list")(adminOnly {
 
     LogBack.isEnable match {
