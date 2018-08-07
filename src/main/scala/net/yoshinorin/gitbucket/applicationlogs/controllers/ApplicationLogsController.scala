@@ -30,7 +30,7 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
     )
   })
 
-  get("/admin/application-logs/configuration/reload")(adminOnly {
+  post("/admin/application-logs/configuration/reload")(adminOnly {
 
     LogBack.isEnable match {
       case true => {

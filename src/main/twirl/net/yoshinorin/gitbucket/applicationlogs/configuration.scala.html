@@ -12,6 +12,11 @@
     @if(isEnable) {
       <div class="head" style="height: 24px;">
         Configuration file
+        <form action="@context.path/admin/application-logs/configuration/reload" method="post" class="pull-right">
+          <button type="submit button" class="btn btn-success btn-sm">
+            <i class="glyphicon glyphicon-refresh">&nbsp;Reload Configuration</i>
+          </button>
+        </form>
       </div>
       @logBackConfigurationFileContent match {
         case Some(v) => {
