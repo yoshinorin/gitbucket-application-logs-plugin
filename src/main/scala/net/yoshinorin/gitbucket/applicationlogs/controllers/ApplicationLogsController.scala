@@ -114,22 +114,27 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
     LogBack.findById(logId) match {
       case Some(v) => {
         val file = new File(v.path)
-        response.setHeader(
-          "Content-Disposition",
-          s"attachment; filename=${file.getName}.zip"
-        )
-        contentType = "application/zip"
-        response.setBufferSize(1024 * 1024)
+        file.exists() match {
+          case true => {
+            response.setHeader(
+              "Content-Disposition",
+              s"attachment; filename=${file.getName}.zip"
+            )
+            contentType = "application/zip"
+            response.setBufferSize(1024 * 1024)
 
-        val zipArchiveOutStream = new ZipArchiveOutputStream(response.getOutputStream)
-        try {
-          zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
-          val zipArchive = new ZipArchiveEntry(file.getName)
-          zipArchiveOutStream.putArchiveEntry(zipArchive)
-          IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
-          zipArchiveOutStream.closeArchiveEntry()
-        } finally {
-          zipArchiveOutStream.close()
+            val zipArchiveOutStream = new ZipArchiveOutputStream(response.getOutputStream)
+            try {
+              zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
+              val zipArchive = new ZipArchiveEntry(file.getName)
+              zipArchiveOutStream.putArchiveEntry(zipArchive)
+              IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
+              zipArchiveOutStream.closeArchiveEntry()
+            } finally {
+              zipArchiveOutStream.close()
+            }
+          }
+          case false => NotFound()
         }
       }
       case _ => NotFound()
