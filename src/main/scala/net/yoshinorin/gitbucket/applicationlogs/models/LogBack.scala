@@ -28,7 +28,7 @@ class LogBack {
   private val logFiles: Option[List[LogFile]] = getLogFiles
 
   private[this] def getConfigurationFilePath: Option[String] = {
-    getRootLogger match {
+    getRootLoggerContext match {
       case Some(rootLoggerCtx) => {
         val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList
         Option(watchList.size()) match {
@@ -73,7 +73,7 @@ class LogBack {
     }
   }
 
-  private def getRootLogger: Option[LoggerContext] = {
+  private def getRootLoggerContext: Option[LoggerContext] = {
     Option(ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext)
   }
 
@@ -107,9 +107,8 @@ object LogBack {
   def readConfigurationFile: Option[String] = instance.readConfigurationFile
 
   def reload(): Try[String] = {
-
     logger.info("Start reload LogBack configuration.")
-    instance.getRootLogger match {
+    instance.getRootLoggerContext match {
       case Some(loggerCtx) => {
         val file = new File(instance.configurationFilePath.get)
         file.exists() match {
