@@ -6,6 +6,7 @@ import scala.util.{Failure, Success, Try}
 import org.apache.commons.compress.archivers.zip.{ZipArchiveEntry, ZipArchiveOutputStream}
 import org.apache.commons.compress.utils.IOUtils
 import org.slf4j.LoggerFactory
+import org.scalatra.FlashMapSupport
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.applicationlogs.models.LogBack
@@ -13,7 +14,7 @@ import net.yoshinorin.gitbucket.applicationlogs.services.ApplicationLogService
 import net.yoshinorin.gitbucket.applicationlogs.utils.{Error, SortType}
 import net.yoshinorin.gitbucket.applicationlogs.utils.Converter.stringConverter
 
-class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService {
+class ApplicationLogsController extends ControllerBase with AdminAuthenticator with ApplicationLogService with FlashMapSupport {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
@@ -25,8 +26,30 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
     net.yoshinorin.gitbucket.applicationlogs.html.configuration(
       LogBack.isEnable,
       LogBack.getConfigurationFilePath,
-      LogBack.readConfigurationFile
+      LogBack.readConfigurationFile,
+      flash.getOrElse("flashMessage", None).asInstanceOf[Option[Either[String, String]]]
     )
+  })
+
+  post("/admin/application-logs/configuration/reload")(adminOnly {
+
+    LogBack.isEnable match {
+      case true => {
+        LogBack.reload() match {
+          case Success(s) => {
+            logger.info(s)
+            flash += "flashMessage" -> { Option(Right(s)) }
+          }
+          case Failure(f) => {
+            logger.error(f.getMessage, f)
+            flash += "flashMessage" -> { Option(Left("Reload failed.")) }
+          }
+        }
+        redirect(s"/admin/application-logs/configuration")
+      }
+      case false => NotFound()
+    }
+
   })
 
   get("/admin/application-logs/list")(adminOnly {

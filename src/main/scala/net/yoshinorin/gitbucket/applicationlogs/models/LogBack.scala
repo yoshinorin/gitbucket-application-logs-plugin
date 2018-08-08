@@ -1,14 +1,19 @@
 package net.yoshinorin.gitbucket.applicationlogs.models
 
+import java.io.{File, FileNotFoundException}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
+import scala.util.{Failure, Success, Try}
 import scala.collection.JavaConverters._
 import ch.qos.logback.classic.LoggerContext
+import ch.qos.logback.classic.joran.JoranConfigurator
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.FileAppender
 import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil
 import ch.qos.logback.core.rolling.RollingFileAppender
+import org.slf4j.LoggerFactory
 import gitbucket.core.util.StringUtil
+import net.yoshinorin.gitbucket.applicationlogs.utils.exceptions
 
 class LogBack {
 
@@ -23,7 +28,7 @@ class LogBack {
   private val logFiles: Option[List[LogFile]] = getLogFiles
 
   private[this] def getConfigurationFilePath: Option[String] = {
-    Option(ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext) match {
+    getRootLogger match {
       case Some(rootLoggerCtx) => {
         val watchList = ConfigurationWatchListUtil.getConfigurationWatchList(rootLoggerCtx).getCopyOfFileWatchList
         Option(watchList.size()) match {
@@ -68,6 +73,10 @@ class LogBack {
     }
   }
 
+  private def getRootLogger: Option[LoggerContext] = {
+    Option(ctx.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).getLoggerContext)
+  }
+
   private def readConfigurationFile: Option[String] = {
     getConfigurationFilePath match {
       case Some(s) => {
@@ -82,6 +91,7 @@ class LogBack {
 
 object LogBack {
 
+  private val logger = LoggerFactory.getLogger(getClass)
   private var instance = new LogBack
 
   def getLogFiles: Option[List[LogFile]] = instance.logFiles
@@ -96,8 +106,30 @@ object LogBack {
 
   def readConfigurationFile: Option[String] = instance.readConfigurationFile
 
-  def reload(): Unit = {
-    instance = new LogBack
+  def reload(): Try[String] = {
+
+    logger.info("Start reload LogBack configuration.")
+    instance.getRootLogger match {
+      case Some(loggerCtx) => {
+        val file = new File(instance.configurationFilePath.get)
+        file.exists() match {
+          case true => {
+            val configurator = new JoranConfigurator
+            configurator.setContext(loggerCtx)
+            loggerCtx.reset()
+            configurator.doConfigure(file)
+            instance = new LogBack
+            Success("LogBack configuration were reloaded.")
+          }
+          case false => {
+            Failure(new FileNotFoundException("LogBack configuration file not found."))
+          }
+        }
+      }
+      case None => {
+        Failure(new exceptions.NotFoundException("LogBack Root logger not found."))
+      }
+    }
   }
 
 }
