@@ -1,17 +1,24 @@
 # gitbucket-application-logs-plugin
 
-[![](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-monitoring-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade)
+[![](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade)
 
 # Features
 
-This plugin provides LogBack's settings and GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
+[GitBucket](//github.com/gitbucket/gitbucket) log feature support plugin for Administrator.
 
-* LogBack settings
-* GitBucket's log
+* Display LogBack configuration
+* Reload LogBack configuration
+* Download GitBucket log
+* GitBucket logs viewer
+    * Multiple logs support
+    * Selectable Sort type (ascending or descending from tail of the log)
+    * Specify the number of display less than 10000
 
 # Images
 
-TODO
+![](https://raw.githubusercontent.com/YoshinoriN/gitbucket-application-logs-plugin/master/doc/images/config.png)
+![](https://raw.githubusercontent.com/YoshinoriN/gitbucket-application-logs-plugin/master/doc/images/logs.png)
+![](https://raw.githubusercontent.com/YoshinoriN/gitbucket-application-logs-plugin/master/doc/images/viewer.png)
 
 # Download & Installation
 
@@ -26,8 +33,9 @@ Goto the `System Administration` menu, you can see `Application Logs` section.
 
 |Plugin version|GitBucket version|
 |:-------------:|:-------:|
-|0.2.0|4.25.0 - 4.26.0|
-|0.1.0|4.25.0 - 4.26.0|
+|1.0.0|4.25.0 - 4.27.0|
+|0.2.0|4.25.0 - 4.27.0|
+|0.1.0|4.25.0 - 4.27.0|
 
 # Build from source
 
