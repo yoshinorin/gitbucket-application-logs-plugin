@@ -4,15 +4,14 @@
 
 # Features
 
-[GitBucket](//github.com/gitbucket/gitbucket) log feature support plugin for Administrator.
+[GitBucket log feature](https://github.com/gitbucket/gitbucket/wiki/Tracing-and-logging) assistance plugin for Administrator.
 
 * Display LogBack configuration
 * Reload LogBack configuration
-* Download GitBucket log
 * GitBucket logs viewer
-    * Multiple logs support
     * Selectable Sort type (ascending or descending from tail of the log)
     * Specify the number of display less than 10000
+* Download GitBucket log
 
 # Images
 
