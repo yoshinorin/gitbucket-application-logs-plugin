@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory
 import gitbucket.core.util.StringUtil
 import net.yoshinorin.gitbucket.applicationlogs.utils.exceptions
 
-class LogBack {
+class LogBack private {
 
   private val ctx = org.slf4j.LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
   private val configurationFilePath: Option[String] = this.getConfigurationFilePath
