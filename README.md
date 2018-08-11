@@ -43,10 +43,28 @@ Goto the `System Administration` menu, you can see `Application Logs` section.
 # Build from source
 
 ```sh
-sbt package
+$ sbt package
 ```
 
 The built package will be created at `/target/scala-2.12/gitbucket-application-logs-plugin_2.12-{plugin-version}.jar`
+
+# Test
+
+Run test.
+
+```
+$ sbt test
+```
+
+Generate coverage report.
+
+```
+$ sbt coverageReport
+
+or
+
+$ sbt clean coverage test coverageReport
+```
 
 # License
 

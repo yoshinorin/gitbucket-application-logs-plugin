@@ -17,7 +17,9 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "commons-io" % "commons-io" % "2.6"
+  "commons-io" % "commons-io" % "2.6",
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 )
 
 scalafmtOnCompile := true
+coverageExcludedPackages := ".*Plugin.*;.*applicationlogs.html.*"
