@@ -2,6 +2,10 @@
 
 [![](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade)
 
+# Precondition
+
+Please enable [logging using by Logback](https://github.com/gitbucket/gitbucket/wiki/Tracing-and-logging) before use this plugin.
+
 # Features
 
 [GitBucket log feature](https://github.com/gitbucket/gitbucket/wiki/Tracing-and-logging) assistance plugin for Administrator.
