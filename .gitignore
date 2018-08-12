@@ -1,5 +1,6 @@
 *.class
 *.log
+!src/test/resources/*.log
 
 # sbt specific
 dist/*
