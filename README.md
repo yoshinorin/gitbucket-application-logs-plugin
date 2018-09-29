@@ -36,7 +36,7 @@ Goto the `System Administration` menu, you can see `Application Logs` section.
 
 |Plugin version|GitBucket version|
 |:-------------:|:-------:|
-|1.0.0|4.25.0 - 4.27.0|
+|1.0.0|4.25.0 - 4.29.0|
 |0.2.0|4.25.0 - 4.27.0|
 |0.1.0|4.25.0 - 4.27.0|
 
