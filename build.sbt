@@ -1,6 +1,6 @@
 val Name = "gitbucket-application-logs-plugin"
 val Organization = "net.yoshinorin"
-val Version = "1.0.0"
+val Version = "2.0.0"
 
 lazy val root = project in file(".")
 
