@@ -43,10 +43,10 @@ Goto the `System Administration` menu, you can see `Application Logs` section.
 # Build from source
 
 ```sh
-$ sbt package
+$ sbt assembly
 ```
 
-The built package will be created at `/target/scala-2.12/gitbucket-application-logs-plugin_2.12-{plugin-version}.jar`
+The built package will be created at `/target/scala-2.13/gitbucket-application-logs-{plugin-version}.jar`
 
 # Test
 

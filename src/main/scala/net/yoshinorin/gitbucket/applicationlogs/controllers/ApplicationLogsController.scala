@@ -23,11 +23,12 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
   })
 
   get("/admin/application-logs/configuration")(adminOnly {
+
     net.yoshinorin.gitbucket.applicationlogs.html.configuration(
       LogBack.isEnable,
       LogBack.getConfigurationFilePath,
       LogBack.readConfigurationFile,
-      flash.getOrElse("flashMessage", None).asInstanceOf[Option[Either[String, String]]]
+      flash.iterator.map(f => f._1 -> f._2.toString).toMap
     )
   })
 
@@ -38,11 +39,11 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
         LogBack.reload() match {
           case Success(s) => {
             logger.info(s)
-            flash += "flashMessage" -> { Option(Right(s)) }
+            flash.update("flashMessageSuccess", s)
           }
           case Failure(f) => {
             logger.error(f.getMessage, f)
-            flash += "flashMessage" -> { Option(Left("Reload failed.")) }
+            flash.update("flashMessageError", "Reload failed.")
           }
         }
         redirect(s"/admin/application-logs/configuration")

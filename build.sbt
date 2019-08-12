@@ -7,8 +7,8 @@ lazy val root = project in file(".")
 name := Name
 organization := Organization
 version := Version
-scalaVersion := "2.12.7"
-gitbucketVersion := "4.23.0"
+scalaVersion := "2.13.0"
+gitbucketVersion := "4.32.0"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -18,7 +18,7 @@ scalacOptions ++= Seq(
 
 libraryDependencies ++= Seq(
   "commons-io" % "commons-io" % "2.6",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 )
 
 scalafmtOnCompile := true

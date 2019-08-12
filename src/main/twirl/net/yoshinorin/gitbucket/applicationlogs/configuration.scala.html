@@ -1,7 +1,7 @@
 @(isEnable: Boolean,
   logBackConfigurationFilePath: Option[String],
   logBackConfigurationFileContent: Option[String],
-  flashMessage: Option[Either[String, String]]
+  flashMessage: Map[String, String] = Map.empty
 )(implicit context: gitbucket.core.controller.Context)
 
 @import context._
@@ -9,10 +9,11 @@
 
 @gitbucket.core.html.main("Application Logs") {
   @gitbucket.core.admin.html.menu("applicationlogs") {
-    @flashMessage match {
-      case Some(Right(r)) => { @gitbucket.core.helper.html.information(Some(r)) }
-      case Some(Left(l)) => { @gitbucket.core.helper.html.error(Some(l)) }
-      case None => {}
+    @flashMessage.get("flashMessageSuccess").map { successMessage =>
+      @gitbucket.core.helper.html.information(Option(successMessage))
+    }
+    @flashMessage.get("flashMessageError").map { errorMessage =>
+      @gitbucket.core.helper.html.information(Option(errorMessage))
     }
     @net.yoshinorin.gitbucket.applicationlogs.html.status(isEnable)
     @net.yoshinorin.gitbucket.applicationlogs.html.navigation(isEnable)
