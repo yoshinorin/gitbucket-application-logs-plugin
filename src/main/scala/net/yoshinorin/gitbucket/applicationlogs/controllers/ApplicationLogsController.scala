@@ -34,35 +34,33 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
 
   post("/admin/application-logs/configuration/reload")(adminOnly {
 
-    LogBack.isEnable match {
-      case true => {
-        LogBack.reload() match {
-          case Success(s) => {
-            logger.info(s)
-            flash.update("flashMessageSuccess", s)
-          }
-          case Failure(f) => {
-            logger.error(f.getMessage, f)
-            flash.update("flashMessageError", "Reload failed.")
-          }
+    if (LogBack.isEnable) {
+      LogBack.reload() match {
+        case Success(s) => {
+          logger.info(s)
+          flash.update("flashMessageSuccess", s)
         }
-        redirect(s"/admin/application-logs/configuration")
+        case Failure(f) => {
+          logger.error(f.getMessage, f)
+          flash.update("flashMessageError", "Reload failed.")
+        }
       }
-      case false => NotFound()
+      redirect(s"/admin/application-logs/configuration")
+    } else {
+      NotFound()
     }
 
   })
 
   get("/admin/application-logs/list")(adminOnly {
 
-    LogBack.isEnable match {
-      case true => {
-        net.yoshinorin.gitbucket.applicationlogs.html.list(
-          LogBack.isEnable,
-          LogBack.getLogFiles
-        )
-      }
-      case false => NotFound()
+    if (LogBack.isEnable) {
+      net.yoshinorin.gitbucket.applicationlogs.html.list(
+        LogBack.isEnable,
+        LogBack.getLogFiles
+      )
+    } else {
+      NotFound()
     }
 
   })
@@ -115,27 +113,26 @@ class ApplicationLogsController extends ControllerBase with AdminAuthenticator w
     LogBack.findById(logId) match {
       case Some(v) => {
         val file = new File(v.path)
-        file.exists() match {
-          case true => {
-            response.setHeader(
-              "Content-Disposition",
-              s"attachment; filename=${file.getName}.zip"
-            )
-            contentType = "application/zip"
-            response.setBufferSize(1024 * 1024)
+        if (file.exists()) {
+          response.setHeader(
+            "Content-Disposition",
+            s"attachment; filename=${file.getName}.zip"
+          )
+          contentType = "application/zip"
+          response.setBufferSize(1024 * 1024)
 
-            val zipArchiveOutStream = new ZipArchiveOutputStream(response.getOutputStream)
-            try {
-              zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
-              val zipArchive = new ZipArchiveEntry(file.getName)
-              zipArchiveOutStream.putArchiveEntry(zipArchive)
-              IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
-              zipArchiveOutStream.closeArchiveEntry()
-            } finally {
-              zipArchiveOutStream.close()
-            }
+          val zipArchiveOutStream = new ZipArchiveOutputStream(response.getOutputStream)
+          try {
+            zipArchiveOutStream.setEncoding(Charset.defaultCharset().toString) //TODO: Set charset from logback configuration file.
+            val zipArchive = new ZipArchiveEntry(file.getName)
+            zipArchiveOutStream.putArchiveEntry(zipArchive)
+            IOUtils.copy(new FileInputStream(file), zipArchiveOutStream)
+            zipArchiveOutStream.closeArchiveEntry()
+          } finally {
+            zipArchiveOutStream.close()
           }
-          case false => NotFound()
+        } else {
+          NotFound()
         }
       }
       case _ => NotFound()

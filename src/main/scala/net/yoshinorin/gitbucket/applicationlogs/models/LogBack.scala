@@ -111,18 +111,15 @@ object LogBack {
     instance.getRootLoggerContext match {
       case Some(loggerCtx) => {
         val file = new File(instance.configurationFilePath.get)
-        file.exists() match {
-          case true => {
-            val configurator = new JoranConfigurator
-            configurator.setContext(loggerCtx)
-            loggerCtx.reset()
-            configurator.doConfigure(file)
-            instance = new LogBack
-            Success("LogBack configuration were reloaded.")
-          }
-          case false => {
-            Failure(new FileNotFoundException("LogBack configuration file not found."))
-          }
+        if (file.exists()) {
+          val configurator = new JoranConfigurator
+          configurator.setContext(loggerCtx)
+          loggerCtx.reset()
+          configurator.doConfigure(file)
+          instance = new LogBack
+          Success("LogBack configuration were reloaded.")
+        } else {
+          Failure(new FileNotFoundException("LogBack configuration file not found."))
         }
       }
       case None => {
