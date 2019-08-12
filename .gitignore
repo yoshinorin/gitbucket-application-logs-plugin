@@ -1,5 +1,6 @@
 *.class
 *.log
+*.gz
 !src/test/resources/*.log
 
 # sbt specific
