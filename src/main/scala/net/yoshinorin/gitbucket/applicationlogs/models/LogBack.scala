@@ -4,7 +4,7 @@ import java.io.{File, FileNotFoundException}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
 import scala.util.{Failure, Success, Try}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.joran.JoranConfigurator
 import ch.qos.logback.classic.spi.ILoggingEvent
