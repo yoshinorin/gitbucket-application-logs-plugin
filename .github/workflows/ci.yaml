@@ -28,5 +28,9 @@ jobs:
       run: sbt package
     - name: Run Test
       run: sbt clean coverage test
+    - uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Send Coverage Report
-      run: sbt coverageReport coveralls
+      run: sbt coverageReport
+      path-to-lcov: "./target/scala-2.13/coverage-report/cobertura.xml"
