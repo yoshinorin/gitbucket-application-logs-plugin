@@ -1,14 +1,14 @@
 val Name = "gitbucket-application-logs-plugin"
 val Organization = "net.yoshinorin"
-val Version = "2.0.0"
+val Version = "3.0.0"
 
 lazy val root = project in file(".")
 
 name := Name
 organization := Organization
 version := Version
-scalaVersion := "2.13.0"
-gitbucketVersion := "4.32.0"
+scalaVersion := "2.13.1"
+gitbucketVersion := "4.35.0"
 
 scalacOptions ++= Seq(
   "-deprecation",
