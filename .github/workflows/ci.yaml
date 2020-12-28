@@ -9,28 +9,27 @@ jobs:
       matrix:
         java: [11]
     steps:
-    - uses: actions/checkout@v2
-    - name: Cache
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-sbt-libs
-      with:
-        path: |
-          ~/.ivy2/cache
-          ~/.sbt
-          ~/.cache/coursier/v1
-        key: build-${{ env.cache-name }}-${{ hashFiles('build.sbt') }}
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java }}
-    - name: Build executable
-      run: sbt package
-    - name: Run Test
-      run: sbt clean coverage test
-    - uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Send Coverage Report
-      run: sbt coverageReport
-      path-to-lcov: "./target/scala-2.13/coverage-report/cobertura.xml"
+      - uses: actions/checkout@v2
+      - name: Cache
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-sbt-libs
+        with:
+          path: |
+            ~/.ivy2/cache
+            ~/.sbt
+            ~/.cache/coursier/v1
+          key: build-${{ env.cache-name }}-${{ hashFiles('build.sbt') }}
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Build executable
+        run: sbt package
+      - name: Run Test
+        run: sbt clean coverage test && sbt coverageReport
+
+      - name: Send Coverage Report
+        run: sbt ++${{ matrix.scala }} coverageAggregate coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}

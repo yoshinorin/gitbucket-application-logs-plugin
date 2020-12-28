@@ -1,6 +1,6 @@
 # gitbucket-application-logs-plugin
 
-[![](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin.svg?branch=master)](https://travis-ci.org/YoshinoriN/gitbucket-application-logs-plugin) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/YoshinoriN/gitbucket-application-logs-plugin/badge.svg?branch=master)](https://coveralls.io/github/YoshinoriN/gitbucket-application-logs-plugin?branch=master)
+[![build](https://github.com/YoshinoriN/gitbucket-application-logs-plugin/workflows/build/badge.svg?branch=master)](https://github.com/YoshinoriN/gitbucket-application-logs-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/YoshinoriN/gitbucket-application-logs-plugin/badge.svg?branch=master)](https://coveralls.io/github/YoshinoriN/gitbucket-application-logs-plugin?branch=master)
 
 # Precondition
 
