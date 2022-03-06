@@ -1,5 +1,7 @@
 *.class
 *.log
+.bsp/
+null/
 *.gz
 !src/test/resources/*.log
 
