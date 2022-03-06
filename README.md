@@ -1,6 +1,6 @@
 # gitbucket-application-logs-plugin
 
-[![build](https://github.com/YoshinoriN/gitbucket-application-logs-plugin/workflows/build/badge.svg?branch=master)](https://github.com/YoshinoriN/gitbucket-application-logs-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/YoshinoriN/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/YoshinoriN/gitbucket-application-logs-plugin/badge.svg?branch=master)](https://coveralls.io/github/YoshinoriN/gitbucket-application-logs-plugin?branch=master)
+[![build](https://github.com/yoshinorin/gitbucket-application-logs-plugin/workflows/build/badge.svg?branch=master)](https://github.com/yoshinorin/gitbucket-application-logs-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/yoshinorin/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yoshinorin/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/yoshinorin/gitbucket-application-logs-plugin/badge.svg?branch=master)](https://coveralls.io/github/yoshinorin/gitbucket-application-logs-plugin?branch=master)
 
 # Precondition
 
@@ -19,13 +19,13 @@ Please enable [logging using by Logback](https://github.com/gitbucket/gitbucket/
 
 # Images
 
-![](https://raw.githubusercontent.com/YoshinoriN/gitbucket-application-logs-plugin/master/doc/images/config.png)
-![](https://raw.githubusercontent.com/YoshinoriN/gitbucket-application-logs-plugin/master/doc/images/logs.png)
-![](https://raw.githubusercontent.com/YoshinoriN/gitbucket-application-logs-plugin/master/doc/images/viewer.png)
+![](https://raw.githubusercontent.com/yoshinorin/gitbucket-application-logs-plugin/master/doc/images/config.png)
+![](https://raw.githubusercontent.com/yoshinorin/gitbucket-application-logs-plugin/master/doc/images/logs.png)
+![](https://raw.githubusercontent.com/yoshinorin/gitbucket-application-logs-plugin/master/doc/images/viewer.png)
 
 # Download & Installation
 
-1. Download plugin jar file from [the release page](//github.com/YoshinoriN/gitbucket-application-logs-plugin/releases).
+1. Download plugin jar file from [the release page](//github.com/yoshinorin/gitbucket-application-logs-plugin/releases).
 2. Put plugin jar file into `GITBUCKET_HOME/plugins` and restart GitBucket.
 
 # UI Usage
