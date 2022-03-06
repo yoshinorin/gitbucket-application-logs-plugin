@@ -1,6 +1,6 @@
 # gitbucket-application-logs-plugin
 
-[![build](https://github.com/yoshinorin/gitbucket-application-logs-plugin/workflows/build/badge.svg?branch=master)](https://github.com/yoshinorin/gitbucket-application-logs-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64706d3697aa4548b043bae8ea90cfb6)](https://www.codacy.com/app/yoshinorin/gitbucket-application-logs-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yoshinorin/gitbucket-application-logs-plugin&amp;utm_campaign=Badge_Grade) [![Coverage Status](https://coveralls.io/repos/github/yoshinorin/gitbucket-application-logs-plugin/badge.svg?branch=master)](https://coveralls.io/github/yoshinorin/gitbucket-application-logs-plugin?branch=master)
+[![build](https://github.com/yoshinorin/gitbucket-application-logs-plugin/workflows/build/badge.svg?branch=master)](https://github.com/yoshinorin/gitbucket-application-logs-plugin/actions) [![Coverage Status](https://coveralls.io/repos/github/yoshinorin/gitbucket-application-logs-plugin/badge.svg?branch=master)](https://coveralls.io/github/yoshinorin/gitbucket-application-logs-plugin?branch=master)
 
 # Precondition
 
